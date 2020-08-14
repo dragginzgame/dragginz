@@ -97,27 +97,38 @@ module {
   // Ability
   public type AbilityID = Types.ID;
   public type Ability = {
-    id:          AbilityID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    icon:        IconID;
+    id:           AbilityID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    // relations
+    icon:         IconID;
   };
 
   // AbilityGroup
   // a predefined group of abilities
   public type AbilityGroupID = Types.ID;
   public type AbilityGroup = {
-    id:          AbilityGroupID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    abilities:   [Ability];
+    id:           AbilityGroupID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    // relations
+    abilities:    [AbilityID];
   };
 
   // Alignment
   public type AlignmentID = Types.ID;
   public type Alignment = {
-    id:   AlignmentID;
-    name: Text;
+    id:           AlignmentID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
   };
 
   // AmbienceTemplate
@@ -125,14 +136,19 @@ module {
   public type AmbienceTemplateID = Types.ID;
   public type AmbienceTemplate = {
     id:           AmbienceTemplateID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
     name:         Types.EntityName;
     description:  Types.Description;
-    icon:         IconID;
-    resource:     Resource;
-    status:       Status;
     series:       ?Types.Series; 
+    // relations
+    icon:         IconID;
     concepts:     [ConceptID];
     tags:         [TagID];
+    // structs
+    resource:     Resource;
+    status:       Status;
     contributors: [Contributor];
   };
 
@@ -140,20 +156,28 @@ module {
   public type AnimationID = Types.ID;
   public type Animation = {
     id:           AnimationID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
     name:         Types.EntityName;
-    rig:          RigID;
-    status:       Status;
     series:       ?Types.Series;
+    // relations
+    rig:          RigID;
+    // structs
+    status:       Status;
     contributors: [Contributor];
   };
 
   // AreaGuide
   public type AreaGuideID = Types.ID;
   public type AreaGuide = {
-    id:          AreaGuideID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    area:        Types.Area;
+    id:           AreaGuideID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    area:         Types.Area;
   };
 
   // AssetBundle
@@ -161,50 +185,70 @@ module {
 	// https://docs.unity3d.com/Manual/AssetBundlesIntro.html
   public type AssetBundleID = Types.ID;
   public type AssetBundle = {
-    id:       AssetBundleID;
-    asset:    Types.TODO;
-    models:   [ModelID];
-    shaders:  [ShaderID];
-    sounds:   [SoundID];
-    textures: [TextureID];
+    id:           AssetBundleID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    asset:        Types.TODO;
+    // relations
+    models:       [ModelID];
+    shaders:      [ShaderID];
+    sounds:       [SoundID];
+    textures:     [TextureID];
   };
 
   // Atmosphere
   public type AtmosphereID = Types.ID;
   public type Atmosphere = {
-    id:          AtmosphereID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    icon:        IconID;
-    resource:    Resource;
-    tags:        [TagID];
-    substances:  [SubstanceID];
+    id:           AtmosphereID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    // relations
+    icon:         IconID;
+    substances:   [SubstanceID];
+    tags:         [TagID];
+    // structs
+    resource:     Resource;
   };
 
   // Biome
   // A Biome forms the template for a Zone's Atmosphere, Climate and Geology
   public type BiomeID = Types.ID;
   public type Biome = {
-    id:          BiomeID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    icon:        IconID;
-    resource:    Resource;
-    concepts:    [ConceptID];
-    atmosphere:  [AtmosphereID];
-    climate:     [ClimateID];
-    geology:     [GeologyID];
+    id:           BiomeID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    // relations
+    icon:         IconID;
+    atmosphere:   [AtmosphereID];
+    climate:      [ClimateID];
+    concepts:     [ConceptID];
+    geology:      [GeologyID];
+    // structs
+    resource:     Resource;
   };
 
   // BuildProject
   public type BuildProjectID = Types.ID;
   public type BuildProject = {
-    id:          BuildProjectID;
-    name:        Types.EntityName;
-    description: Types.Description;
-    status:      BuildStatus;
-    team:        TeamID;
-    originChunk: ChunkID;
+    id:           BuildProjectID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Types.EntityName;
+    description:  Types.Description;
+    // enums
+    status:       BuildStatus;
+    // relations
+    team:         TeamID;
+    originChunk:  ChunkID;
+    // structs
     chunks:      [{
       offsetX:    Types.ChunkCoord;
       offsetY:    Types.ChunkCoord;
@@ -217,7 +261,10 @@ module {
   // When a BuildProject is submitted to a BuildTask we create a BuildSubmission
   public type BuildSubmissionID = Types.ID;
   public type BuildSubmission = {
-    id:      BuildSubmissionID;
+    id:           BuildSubmissionID;
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // relations
     task:    BuildTaskID;
     project: BuildProjectID;
   };
@@ -230,7 +277,9 @@ module {
     id:          BuildTaskID;
     name:        Types.EntityName;
     description: Types.Description;
+    // relations
     zone:        ?ZoneID;
+    // structs
     chunks:      [Chunk];
   };
 
@@ -243,6 +292,7 @@ module {
     id:          BuildTemplateID;
     name:        Types.EntityName;
     description: Types.Description;
+    // relations
     project:     BuildProjectID;
   };
 
@@ -251,12 +301,14 @@ module {
   public type Character = {
     id:        CharacterID;
     name:      Types.EntityName;
-    player:    Player;
-    gender:    Gender;
-    species:   Species;
+    // relations
+    player:    PlayerID;
+    gender:    GenderID;
+    species:   SpeciesID;
+    roles:     [RoleID];
+    // structs
     inventory: Inventory;
     pets:      [Pet];
-    roles:     [Role];
   };
 
   // CharacterClass
@@ -266,9 +318,11 @@ module {
   public type CharacterClass = {
     id:       CharacterClassID;
     name:     Types.EntityName;
-    icon:     Icon;
-    resource: Resource;
+    // relations
+    icon:     IconID;
     concepts: [ConceptID]; 
+    // structs
+    resource: Resource;
   };
 
   // CharacterTemplate
@@ -276,8 +330,10 @@ module {
   public type CharacterTemplate = {
     id:        CharacterTemplateID;
     name:      Types.EntityName;
-    gender:    Gender;
+    // relations
+    gender:    GenderID;
     species:   SpeciesID;
+    // structs
     inventory: Inventory;
   };
 
@@ -289,6 +345,7 @@ module {
     x:        Types.ChunkCoord;
     y:        Types.ChunkCoord;
     z:        Types.ChunkCoord;
+    // structs
     contents: ChunkData;
   };
 
@@ -298,10 +355,12 @@ module {
     id:          ClimateID;
     name:        Types.EntityName;
     description: Types.Description;
-    resource:    Resource;
+    // relations
     icon:        IconID;
     tags:        [TagID];
     weather:     [WeatherID];
+    // structs
+    resource:    Resource;
   };
 
   // Collider
@@ -316,7 +375,9 @@ module {
     capsuleRadius: ?Types.Distance; 
     sphereRadius:  ?Types.Distance;
     meshScale:     ?Float;
+    // enums
     axis:          Axis;
+    // relations
     mesh:          MeshID;
   };
 
@@ -326,6 +387,7 @@ module {
     id:           ConceptID;
     name:         Types.EntityName;
     asset:        Types.TODO;
+    // structs
     status:       Status;
     contributors: [Contributor];
   };
@@ -337,12 +399,14 @@ module {
     id:           CoverTemplateID;
     name:         Types.EntityName;
     description:  Types.Description;
-    icon:         IconID;
-    resource:     Resource;
     series:       ?Types.Series;
-    contributors: [Contributor];
+    // relations
+    icon:         IconID;
     concepts:     [ConceptID];
     tags:         [TagID];
+    // structs
+    resource:     Resource;
+    contributors: [Contributor];
   };
 
   // Culture
@@ -352,12 +416,14 @@ module {
     id:           CultureID;
     name:         Types.EntityName;
     description:  Types.Description;
+    // relations
     icon:         IconID;
-    resource:     Resource;
-    population:   [PopulationID];
-    themes:       [ThemeID];
     concepts:     [ConceptID];
+    population:   [PopulationID];
     tags:         [TagID];
+    themes:       [ThemeID];
+    // structs
+    resource:     Resource;
   };
 
   // DensityGuide
@@ -377,6 +443,8 @@ module {
     id:          ElementID;
     name:        Types.EntityName;
     description: Types.Description;
+    sortOrder:   Types.SortOrder;
+    // relations
     icon:        IconID;
   };
   
@@ -388,7 +456,9 @@ module {
     description: Types.Description;
     startYear:   Types.GameYear;
     endYear:     Types.GameYear;
+    // relations
     icon:        IconID;
+    // structs
     resource:    Resource;
   };
 
@@ -405,10 +475,13 @@ module {
   // An in-game gender, just Male or Female
   public type GenderID = Types.ID;
   public type Gender = {
-    id:       GenderID;
-    name:     Types.EntityName;
-    icon:     IconID;
-    resource: Resource;
+    id:        GenderID;
+    name:      Types.EntityName;
+    sortOrder: Types.SortOrder;
+    // relations
+    icon:      IconID;
+    // structs
+    resource:  Resource;
   };
 
   // Geology
@@ -417,9 +490,11 @@ module {
     id:          GeologyID;
     name:        Types.EntityName;
     description: Types.Description;
+    // relations
     icon:        IconID;
-    resource:    Resource;
     tags:        [TagID];
+    // structs
+    resource:    Resource;
   };
 
   // HardnessCategory
@@ -431,7 +506,9 @@ module {
     description: Types.Description;
     minHardness: Types.Hardness;
     maxHardness: Types.Hardness;
+    // relations
     icon:        IconID;
+    // structs
     resource:    Resource;
   };
 
@@ -461,8 +538,9 @@ module {
     id:           IconID;
     name:         Types.EntityName;
     asset:        Types.TODO;
-    status:       Status;
     series:       ?Types.Series;
+    // structs
+    status:       Status;
     contributors: [Contributor];
   };
 
@@ -472,9 +550,12 @@ module {
   public type ItemTemplate = {
     id:        ItemTemplateID;
     name:      Types.EntityName;
+    // relations
     icon:      IconID;
-    rarity:    RarityID;
     quality:   QualityID;
+    rarity:    RarityID;
+    concepts: [ConceptID];
+    // structs
     resource:  Resource;
     eatAction: ?{
       foodBonus: Types.TODO;
@@ -486,7 +567,6 @@ module {
       cooldown: Cooldown;
       charges:  [RNG];
     }];
-    concepts: [ConceptID];
   };
 
   // LengthGuide
@@ -513,11 +593,13 @@ module {
     id:          MaterialID;
     name:        Types.EntityName;
     colour:      Types.Colour;
-    status:      Status;
-    mesh:        ?MeshID;
     series:      ?Types.Series;
+    // relations
+    mesh:        ?MeshID;
     shader:      ?ShaderID;
     textures:    [TextureID];
+    // structs
+    status:      Status;
   };
 
   // Mesh
@@ -525,10 +607,12 @@ module {
   public type MeshID = Types.ID;
   public type Mesh = {
     id:        MeshID;
-    model:     ModelID;
-    status:    Status;
     series:    ?Types.Series;
+    // relations
+    model:     ModelID;
     materials: [MaterialID];
+    // structs
+    status:    Status;
   };
 
   // MobImplementation
@@ -549,10 +633,12 @@ module {
     id:          MobImplementationID;
     name:        Types.EntityName;
     description: Types.Description;
+    series:      ?Types.Series;
+    // relations
+    concepts:    [ConceptID];
+    // structs
     objectAttr:  ObjectAttr;
     status:      Status;
-    series:      ?Types.Series;
-    concepts:    [ConceptID];
   };
 
   // MobTemplate
@@ -570,12 +656,14 @@ module {
     name:           Types.EntityName;
     description:    Types.Description;
     sizeModifier:   Types.Percent;
+    // relations
     icon:           IconID;
     implementation: MobImplementationID;
-    resource:       Resource;
-    status:         Status;
     concepts:       [ConceptID];
     tags:           [TagID];
+    // structs
+    resource:       Resource;
+    status:         Status;
   };
 
 
@@ -588,8 +676,11 @@ module {
     description: Types.Description;
     lodLevels:   Nat;   // 1 to 10
     volume:      ?Types.Volume;
-    contributor: Contributor;
+    // relations
     meshes:      [MeshID];
+    // structs
+    contributor: Contributor;
+    status:      Status;
   };
 
   // OpacityGuide
@@ -607,8 +698,9 @@ module {
   public type Pet = {
     id:          PetID;
     name:        Types.TODO;   // pet names are subject to extreme validation
+    // relations
+    gender:      GenderID;
     species:     SpeciesID;
-    gender:      Gender;
   };
 
   // PetStage
@@ -620,10 +712,12 @@ module {
     rank:           Types.Rank;
     baseLevel:      Types.Level;
     progressLevels: Nat;   // 1 to 20
+    // structs
     resource:       Resource;
     costs:          [Cost];
     requirements:   [Requirement];
     restrictions:   [Restriction];
+    rewards:        [Reward];
   };
 
   // PetTemplate
@@ -656,9 +750,11 @@ module {
     id:           PopulationID;
     name:         Types.EntityName;
     description:  Types.Description;
+    // relations
     icon:         IconID;
-    resource:     Resource;
     tags:         [TagID];
+    // structs
+    resource:     Resource;
     demographics: [{
       weighting: Types.Weighting;
       species:   SpeciesID;
@@ -672,13 +768,15 @@ module {
     id:           PropTemplateID;
     name:         Types.EntityName;
     description:  Types.Description;
+    series:       ?Types.Series;
+    // relations
+    quality:      QualityID;
+    concepts:     [ConceptID];
+    tags:         [TagID];
+    // structs
     resource:     Resource;
     status:       Status;
-    quality:      QualityID;
-    series:       ?Types.Series;
     contributors: [Contributor];
-    concepts:     [ConceptID];
-    tags:         [TagID]
   };
   
   // Quality
@@ -688,9 +786,11 @@ module {
   public type Quality = {
     id:              QualityID;
     name:            Types.EntityName;
-    icon:            IconID; 
-    resource:        Resource;
     valueMultiplier: Nat;
+    // relations
+    icon:            IconID; 
+    // structs
+    resource:        Resource;
   };
 
   // Rarity
@@ -699,10 +799,12 @@ module {
   public type Rarity = {
     id:              RarityID;
     name:            Types.EntityName;
-    icon:            IconID;
-    resource:        Resource;
-    weighting:       Types.Weighting;
     valueMultiplier: Nat;
+    weighting:       Types.Weighting;
+    // relations
+    icon:            IconID;
+    // structs
+    resource:        Resource;
   };
 
   // Recipe
@@ -711,6 +813,7 @@ module {
     id:           RecipeID;
     name:         Types.EntityName;
     description:  Types.Description;
+    // structs
     resource:     Resource;
     costs:        [Cost];
     requirements: [Requirement];
@@ -726,6 +829,7 @@ module {
     name:        Types.EntityName;
     description: Types.Description;
     startTime:   Types.Time;
+    // relations
     icon:        IconID;
   };
 
@@ -745,8 +849,10 @@ module {
     id:           RigID;
     name:         Types.EntityName;
     series:       ?Types.Series;
-    status:       Status;
+    // relations
     animations:   [AnimationID];
+    // structs
+    status:       Status;
     contributors: [Contributor];
   };
 
@@ -756,30 +862,38 @@ module {
     id:             RoleID;
     name:           Types.EntityName;
     description:    Types.Description;
-    characterClass: CharacterClass;
     baseLevel:      Nat;
     progressLevels: Nat;  // 1 to 20
-    icon:           Icon;
-    resource:       Resource;
-    abilityGroups:  [AbilityGroup];
+    // relations
+    characterClass: CharacterClassID;
+    icon:           IconID;
+    abilityGroups:  [AbilityGroupID];
     concepts:       [ConceptID];
+    // structs
+    resource:       Resource;
+    status:         Status;
     costs:          [Cost];
     requirements:   [Requirement];
     restrictions:   [Restriction];
+    rewards:        [Reward];
   };
 
   // Shader
   public type ShaderID = Types.ID;
   public type Shader = {
     #unity: {
-      #normal: Text;
+      id:           ShaderID; 
+      className: {
+        #normal: Text;
+      };
     };
     #asset: {
       id:           ShaderID; 
       asset:        Types.TODO;
+      series:       ?Types.Series;
+      // structs
       status:       Status;
       contributors: [Contributor];
-      series:       ?Types.Series;
     };
   };
 
@@ -792,7 +906,9 @@ module {
     description: Types.Description;
     minSize:     Types.Distance;     // size of longest dimension
     maxSize:     Types.Distance;     // size of longest dimension
+    // relations
     icon:        IconID;
+    // structs
     resource:    Resource;
   };
 
@@ -811,9 +927,11 @@ module {
   public type Sound = {
     id:     SoundID;
     name:   Types.EntityName;
-    status: Status;
     series: ?Types.Series;
-    layers: [SoundLayer];
+    // relations
+    layers: [SoundLayerID];
+    // structs
+    status: Status;
   };
 
   // SoundComponent
@@ -822,7 +940,8 @@ module {
     id:         SoundComponentID;
     isRandom:   Bool;
     isRepeated: Bool;
-    variants:   [SoundVariant];
+    // relations
+    variants:   [SoundVariantID];
   };
 
   // SoundFile
@@ -834,6 +953,7 @@ module {
     lufs:       Int;               // -99 to 99
     sampleRate: Int;               // readonly? @todo
     asset:      Types.TODO;
+    // enums
     channel:    SoundChannel;
   };
 
@@ -847,6 +967,7 @@ module {
     level:       Float;               // 0 to 1
     minDistance: Nat;                 // 0 to 10
     maxDistance: Nat;                 // 0 to 10
+    // relations
     components:  [SoundComponentID];
   };
 
@@ -870,8 +991,9 @@ module {
     name:         Types.EntityName;
     playbackRate: Nat;              // 0 to 5
     bypassReverb: Bool;
+    // relations
+    soundLoop:    ?SoundLoopID;
     file:         [SoundFileID];
-    soundLoop:    ?SoundLoop;
   };
 
   // Species
@@ -894,6 +1016,7 @@ module {
     density:     Types.Density;
     hardness:    Types.Hardness;
     friction:    Types.Friction;
+    // structs
     resource:    Resource;
   };
 
@@ -914,7 +1037,8 @@ module {
   public type Team = {
     id:       TeamID;
     name:     Types.EntityName;
-    players:  [Player];
+    // relations
+    players:  [PlayerID];
   };
 
   // TemperatureCategory
@@ -926,7 +1050,9 @@ module {
     description: Types.Description;
     minTemp:     Types.Temperature;
     maxTemp:     Types.Temperature;
+    // relations
     icon:        IconID;
+    // structs
     resource:    Resource;
   };
 
@@ -946,10 +1072,12 @@ module {
     name:        Types.EntityName;
     description: Types.Description;
     resonance:   Types.Resonance;
+    // relations
     icon:        IconID;
     material:    MaterialID;
-    resource:    Resource;
     composition: [SubstanceID];
+    // structs
+    resource:    Resource;
   };
 
   // Texture
@@ -958,10 +1086,13 @@ module {
     id:           TextureID;
     name:         Types.EntityName;
     asset:        Types.TODO;
-    status:       Status;
-    textureType:  TextureType;
-    material:     ?MaterialID;
     series:       ?Types.Series;
+    // enums
+    textureType:  TextureType;
+    // relations
+    material:     ?MaterialID;
+    // structs
+    status:       Status;
     contributors: [Contributor];
   };
 
@@ -971,6 +1102,7 @@ module {
   public type TextureAtlas = {
     id:       TextureAtlasID;
     asset:    Types.TODO;
+    // relations
     textures: [TextureID]
   };
 
@@ -980,9 +1112,11 @@ module {
     id:           ThemeID;
     name:         Types.EntityName;
     description:  Types.Description;
+    // relations
     icon:         IconID;
-    resource:     Resource;
     tags:         [TagID];
+    // structs
+    resource:     Resource;
   };
 
   // VelocityGuide
@@ -1009,7 +1143,9 @@ module {
     id:          WeatherID;
     name:        Types.EntityName;
     description: Types.Description;
+    // relations
     icon:        IconID;
+    // structs
     resource:    Resource;
   };
 
@@ -1019,33 +1155,31 @@ module {
   // if a Zone is removed, don't repurpose just set isRetired to true
   public type ZoneID = Types.ID;
   public type Zone = {
-
     // Fields
     id:                ZoneID;
     name:              Types.EntityName;
     description:       Types.Description;
     isVirtual:         Bool;    // is this zone physically within the game world?
     isRetired:         Bool;    // has this zone been retired    
-
-    // Inheritance Fields
+    // fields - inheritance
     inheritAtmosphere: Bool;
     inheritClimate:    Bool;
     inheritGeology:    Bool;
     inheritPopulation: Bool;
     inheritTheme:      Bool;
-
-    // Relations
+    // relations
     biome:             ?BiomeID;
     culture:           ?CultureID;
     concepts:          [ConceptID];
-    resource:          Resource;
-
-    // Relations - Classification
+    // relations - classification
     atmosphere:        [AtmosphereID];
     climate:           [ClimateID];
     geology:           [GeologyID];
     population:        [PopulationID];
     theme:             [ThemeID];
+    // structs
+    resource:          Resource;
+    status:            Status;
   };
 
   //

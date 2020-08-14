@@ -18,6 +18,7 @@ module {
   public type EntityName  = Text;   // generic name for any entity
   public type Interval    = Nat;    // duration of time
   public type Series      = Nat; 
+  public type SortOrder   = Nat;
   public type UUID        = Text;
   public type Weighting   = Nat;
   public type Username    = Text;
