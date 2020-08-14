@@ -100,15 +100,10 @@ module {
     lastModifiedBy: ?PlayerID;
   };
 
-  // @todo, maybe wrap each entity so we can have metadata?
-  //public class Ability {
-  //  var data = AbilityData;
-  //};
-
   // Ability
   public type AbilityID = Types.ID;
   public type Ability = {
-    _metadata:    Metadata;
+    _metadata:   Metadata;
     // fields
     name:        Types.EntityName;
     description: Types.Description;
@@ -121,7 +116,7 @@ module {
   // a predefined group of abilities
   public type AbilityGroupID = Types.ID;
   public type AbilityGroup = {
-    _metadata:    Metadata;
+    _metadata:   Metadata;
     // fields
     name:        Types.EntityName;
     description: Types.Description;
@@ -242,10 +237,10 @@ module {
     team:        TeamID;
     // structs
     chunks:      [{
-      offsetX:    Types.ChunkCoord;
-      offsetY:    Types.ChunkCoord;
-      offsetZ:    Types.ChunkCoord;
-      data:       ChunkData;
+      offsetX:     Types.ChunkCoord;
+      offsetY:     Types.ChunkCoord;
+      offsetZ:     Types.ChunkCoord;
+      data:        ChunkData;
     }];
   };
 
@@ -308,12 +303,12 @@ module {
   public type CharacterClass = {
     _metadata: Metadata;
     // fields
-    name:     Types.EntityName;
+    name:      Types.EntityName;
     // relations
-    icon:     IconID;
-    concepts: [ConceptID]; 
+    icon:      IconID;
+    concepts:  [ConceptID]; 
     // structs
-    resource: Resource;
+    resource:  Resource;
   };
 
   // CharacterTemplate
@@ -1326,42 +1321,30 @@ module {
   // Requirement
   public type Requirement = {
     // structs
-    character: [RequirementCharacter];
-    pet:       [RequirementPet];
-    player:    [RequirementPlayer];
-  };
-
-  // RequirementCharacter
-  // The subset of requirements that correspond to the current Character
-  public type RequirementCharacter = {
-    // fields
-    minRank:  ?Types.Rank;
-    maxRank:  ?Types.Rank;
-    minLevel: ?Types.Level;
-    maxLevel: ?Types.Level;
-    // relations
-    gender:   ?GenderID;
-    classes:  [CharacterClassID];
-    roles:    [RoleID];
-    species:  [SpeciesID];
-  };
-
-  // RequirementPet
-  // The subset of requirements that correspond to a Character's active Pet
-  public type RequirementPet = {
-    // fields
-    minLevel: Types.Level;
-    maxLevel: Types.Level;
-    // relations
-    gender:   ?GenderID;
-    elements: [ElementID];
-    species:  [SpeciesID];
-  };
-
-  // RequirementPlayer
-  // The subset of requirements that correspond to the current Player
-  public type RequirementPlayer = {
-    playedFor: Types.Interval;
+    character: ?{
+      // fields
+      minRank:  ?Types.Rank;
+      maxRank:  ?Types.Rank;
+      minLevel: ?Types.Level;
+      maxLevel: ?Types.Level;
+      // relations
+      gender:   ?GenderID;
+      classes:  [CharacterClassID];
+      roles:    [RoleID];
+      species:  [SpeciesID];
+    };
+    pet: ?{
+      // fields
+      minLevel: ?Types.Level;
+      maxLevel: ?Types.Level;
+      // relations
+      gender:   ?GenderID;
+      elements: [ElementID];
+      species:  [SpeciesID];
+    };
+    player: ?{
+      playedFor: ?Types.Interval;
+    };
   };
 
   // Resource
@@ -1382,28 +1365,17 @@ module {
   // Restriction
   public type Restriction = {
     // structs
-    character: [RestrictionCharacter];
-    pet:       [RestrictionPet];
-    player:    [RestrictionPlayer];
-  };
-
-  // RestrictionCharacter
-  public type RestrictionCharacter = {
-    // relations
-    classes:  [CharacterClassID];
-    roles:    [RoleID];
-    species:  [SpeciesID];
-  };
-
-  // RestrictionPet
-  public type RestrictionPet = {
-    // relations
-    elements: [ElementID];
-    species:  [SpeciesID];
-  };
-
-  // RestrictionPlayer
-  public type RestrictionPlayer = {
+    character: ?{
+      classes:  [CharacterClassID];
+      roles:    [RoleID];
+      species:  [SpeciesID];
+    };
+    pet: ?{
+      elements: [ElementID];
+      species:  [SpeciesID];
+    };
+    player: ?{
+    };
   };
 
   // Reward
@@ -1451,30 +1423,30 @@ module {
   // A designator for a cartesian coordinate system, optimised for a four-dimensional manifold
   // with three spatial dimensions.  For the sake of simplicity, relativistic effects are ignored 
   public type Axis = {
-    #x:  Text;
-    #y:  Text;
-    #z:  Text;
+    #x;
+    #y;
+    #z;
   };
 
   // BuildStatus
   // a list of status codes used by BuildStatus
   public type BuildStatus = {
-    #approved: Text;
+    #approved;
   };
 
   // SoundChannel
   // @todo identifiers with numbers?
   public type SoundChannel = {
-    #twodotone:  Text;
-    #fivedotone: Text;
+    #twodotone;
+    #fivedotone;
   };
 
   // TextureType
   // These correspond with the types of Texture found within Unity
   public type TextureType = {
-    #albedo:   Text;
-    #normal:   Text;
-    #specular: Text;
+    #albedo;
+    #normal;
+    #specular;
   };
 
 };
