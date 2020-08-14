@@ -111,7 +111,6 @@ module {
     icon:        IconID;
   };
 
-
   // AbilityGroup
   // a predefined group of abilities
   public type AbilityGroupID = Types.ID;
@@ -283,17 +282,17 @@ module {
   // Character
   public type CharacterID = Types.ID;
   public type Character = {
-    _metadata: Metadata;
+    _metadata:      Metadata;
     // fields
-    name:      Types.EntityName;
+    name:           Types.EntityName;
     // relations
-    player:    PlayerID;
-    gender:    GenderID;
-    species:   SpeciesID;
-    roles:     [RoleID];
+    player:         PlayerID;
+    gender:         GenderID;
+    species:        SpeciesID;
+    pets:           [PetID];
+    roles:          [RoleID];
     // structs
-    inventory: Inventory;
-    pets:      [Pet];
+    inventory:      Inventory;
   };
 
   // CharacterClass
@@ -359,16 +358,26 @@ module {
     _metadata:     Metadata;
     // fields
     isTrigger:     Bool;
-    rotation:      Types.Quaternion;
-    boxSize:       Types.Vector;
-    capsuleLength: ?Types.Distance;
-    capsuleRadius: ?Types.Distance; 
-    sphereRadius:  ?Types.Distance;
     meshScale:     ?Float;
     // enums
     axis:          Axis;
     // relations
     mesh:          MeshID;
+    // structs
+    params: {
+      #capsule: {
+        length:   ?Types.Distance;
+        radius:   ?Types.Distance; 
+        rotation: ?Types.Quaternion;
+      };
+      #box: {
+        size:     Types.Vector;
+        rotation: ?Types.Quaternion;
+      };
+      #sphere: {
+        radius:  ?Types.Distance;
+      }
+    };
   };
 
   // Concept
@@ -543,6 +552,7 @@ module {
     asset:        Types.TODO;
     series:       ?Types.Series;
     // structs
+    resource:     Resource;
     status:       Status;
     contributors: [Contributor];
   };
@@ -561,6 +571,7 @@ module {
     concepts:  [ConceptID];
     // structs
     resource:  Resource;
+    status:    Status;
     eatAction: ?{
       foodBonus: Types.TODO;
     };
@@ -623,57 +634,24 @@ module {
     status:    Status;
   };
 
-  // MobImplementation
-  // The implementation of a Mobile OBject (player, monster, or NPC)
-  // including Models and Textures.
-  // 
-  // There can be many templates based on this Mob Implementation (MobT) with various
-  // size, clothes, and levels/roles, and other game design parameters.
+  // MobTemplate
   //
-  // Examples:
-  //  Canopy Elf Male
-  //  Mimic
-  //  Black Cat
-  //  Purple Cat
-  //
-  public type MobImplementationID = Types.ID;
-  public type MobImplementation = {
+  public type MobTemplateID = Types.ID;
+  public type MobTemplate = {
     _metadata:   Metadata;
     // fields
     name:        Types.EntityName;
     description: Types.Description;
     series:      ?Types.Series;
     // relations
+    icon:        IconID;
     concepts:    [ConceptID];
+    tags:        [TagID];
     // structs
-    objectAttr:  ObjectAttr;
+    modelImp:    ModelImp;
+    resource:    Resource;
     status:      Status;
-  };
-
-  // MobTemplate
-  // Mobile OBject Template which includes implementation information plus
-  // game design parameters
-  //
-  // Examples:
-	//	Mimic King
-	//	Macavity the Purple Cat
-	//	Bob the Builder
-  //
-  public type MobTemplateID = Types.ID;
-  public type MobTemplate = {
-    _metadata:      Metadata;
-    // fields
-    name:           Types.EntityName;
-    description:    Types.Description;
-    sizeModifier:   Types.Percent;
-    // relations
-    icon:           IconID;
-    implementation: MobImplementationID;
-    concepts:       [ConceptID];
-    tags:           [TagID];
-    // structs
-    resource:       Resource;
-    status:         Status;
+    composition: SubstanceComposition;
   };
 
   // Model
@@ -690,6 +668,7 @@ module {
     meshes:      [MeshID];
     // structs
     contributor: Contributor;
+    resource:    Resource;
     status:      Status;
   };
 
@@ -790,10 +769,12 @@ module {
     description:  Types.Description;
     series:       ?Types.Series;
     // relations
+    icon:         IconID;
     quality:      QualityID;
     concepts:     [ConceptID];
     tags:         [TagID];
     // structs
+    modelImp:     ModelImp;
     resource:     Resource;
     status:       Status;
     contributors: [Contributor];
@@ -1110,6 +1091,8 @@ module {
   };
 
   // Terrain
+  // The various terrain found in our Dragginz Terrain System, utilising a set of shapes
+  // based on cubes and diagonals
   public type TerrainID = Types.ID;
   public type Terrain = {
     _metadata:   Metadata;
@@ -1120,8 +1103,8 @@ module {
     // relations
     icon:        IconID;
     material:    MaterialID;
-    composition: [SubstanceID];
     // structs
+    composition: SubstanceComposition;
     resource:    Resource;
   };
 
@@ -1138,6 +1121,7 @@ module {
     // relations
     material:     ?MaterialID;
     // structs
+    resource:     Resource;
     status:       Status;
     contributors: [Contributor];
   };
@@ -1254,6 +1238,7 @@ module {
     rolling:  Bool;
   };
 
+
   // Contributor
   public type Contributor = {
     // relations
@@ -1291,26 +1276,20 @@ module {
   };
 
   // Mob
+  // the actual instance of a Mob inside the game
   public type Mob = {
     template: MobTemplateID;
   };
 
-  // ObjectAttr
-  // stores the attributes of anything that is represented in game as
-  // a physical object
-  public type ObjectAttr = {
+  // ModelImp
+  // the implementation of a Model
+  public type ModelImp = {
+    // fields
+    sizeModifier: Types.Percent;
     // relations
-    model: ModelID;
+    model:        ModelID;
     // structs
-    composition: [{
-      layer: {
-        #surface: Nat;
-        #core:    Nat;
-      };
-      weighting: Types.Weighting;
-      substance: SubstanceID;
-    }];
-    implementation: Types.TODO;
+    meshes:       Types.TODO;
   };
 
   // Prop
@@ -1413,6 +1392,22 @@ module {
     // relations
     startRelease: ?ReleaseID;
     endRelease:   ?ReleaseID;
+  };
+
+  // SubstanceComposition
+  // the information on how a physical object is composed of Substances
+  public type SubstanceComposition = {
+    layers: [{
+      // fields
+      position: {
+        #both;
+        #core;
+        #surface;
+      };
+      weighting: Types.Weighting;
+      // relations
+      substance: SubstanceID;
+    }];
   };
 
   //

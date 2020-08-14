@@ -8,9 +8,7 @@ Our stack is currently Unity, SpatialOS/Improbable, and we're looking to replace
 Currently we are attempting to assemble a giant data model (500+ entities) with validation and filtering/sanitisation rules.  It's imperative that all the data that builds this world is carefully curated and error checked.  Previously we
 used CockroachDB as our storage layer.
 
-The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortressset in a very vertical, 3D Labyrinth/Dark Crystal type world.
-
----
+The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortressset in a very vertical, 3D Labyrinth/Dark Crystal type world.---
 
 # Notes
 
@@ -38,11 +36,6 @@ and validation.  It should disallow 3 or more repeated characters, trim whitespa
 How do we create a template type, say "Name" or "PetName" and have these inherit from each other, ie.
 PetName -> Name -> Text, each level adding in extra functionality.
 
-## Entity Metadata
-
-How do we separate the fields of an entity from metadata?  Is it a case of Rarity { RarityData, Metadata }, how should that be set up
-and how should the actual values be initialised?
-
 ---
 
 # ??? Questions ???
@@ -57,7 +50,7 @@ way for that sort of thing?
 Do I need one Trie for each Entity?  How is this going to scale, because some of these Entities will always be limited to a handful
 of rows and some will be terabytes of data.
 
-Right now everything's stored in one Trie and that obviously has to change.
+Right now everything's stored in ~~~~one Trie and that obviously has to change.
 
 ## Big Files
 
@@ -65,15 +58,7 @@ So the current design has about 185 tables, but that's a SQL data model so it in
 that we wouldn't need within Motoko.  This could easily be over 300 tables by the time the game goes live.
 
 Go automatically includes all the files in one directory, and I *still* had to split it into subdirectories.  What is the best way
-to handle this in Motoko?  Don't really fancy one file with 20,000 lines, or even a massive list of includes.
-
-## Reserved Words
-
-We have an Entity called Class.  This was fine in Go because it was upper case, but we're using #class as an identifier which is probably a bad idea.  Any way around this?
-
-## ID within Entity
-
-Is there any need to store the ID inside an entity, potentially duplicating data because the ID is the key used in the map.  However the key could be a hash, so I guess we should.
+to handle this in Motoko?  Don't really fancy one file with 20,000 lines, or even a massive list of includes.~~~~
 
 ## Class Inheritance
 
@@ -94,4 +79,4 @@ We can make a Types.String type for a field, but how could we do something like 
 
 Need a good way to instantiate data that's static and unchanging, such as the different levels of Rarity.  Could potentially tables like Rarity, AreaGuide, LengthGuide be stored in a different format.
 
-~~---~~
+---
