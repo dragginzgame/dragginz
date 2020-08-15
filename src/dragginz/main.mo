@@ -1,27 +1,16 @@
 import TrieMap "mo:base/TrieMap";
 import Hash "mo:base/Hash";
 import Result "mo:base/Result";
-import Entity "./entity"
-
-
+import Entity "./entity";
+import Types "./types";
+  
+// Database
 actor Database {
-
-  //public module ID {
-  //  public type Equal<ID> = (ID, ID) -> Bool;
-  //  public type Hash<ID> = (ID -> Hash.Hash);
- // };
 
     public type ID = Word32;
 
-  //  public type Err = {
-    //    #invalidID;
-      //  #permissionDenied
-    //};
-
-  //  public type Res<X> = Result.Result<X, Err>;
-
-
     // Data store
+    // Eventually will be a BigMap
     var dataStore : TrieMap.TrieMap<ID, Entity.Entity> = TrieMap.TrieMap<ID, Entity.Entity>(
         func(x, y) { x == y },
         func(id : ID) { id },    // don't think this actually hashes it
@@ -30,7 +19,7 @@ actor Database {
 
     // create
     public func create(e : Entity.Entity) : async ID {
-        nextID += 1;
+        nextID += 1; 
         dataStore.put(nextID, e);
         return nextID;
     };

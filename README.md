@@ -28,14 +28,6 @@ Just like in https://github.com/matthewhammer/motoko-crud/blob/master/src/Databa
 Some entities require a UUID that the users have to respond with to "claim" the entity in the database.  This will eventually be
 encrypted somehow, but in the meantime how can I generate a random UUID?  Basically like uuid.NewV4() in Go.
 
-## Custom Types
-
-Instead of the name of a Character or Pet being Text, it needs to be a 20 character string that has specific rules on sanitisation
-and validation.  It should disallow 3 or more repeated characters, trim whitespace, and other rules.
-
-How do we create a template type, say "Name" or "PetName" and have these inherit from each other, ie.
-PetName -> Name -> Text, each level adding in extra functionality.
-
 ---
 
 # ??? Questions ???
@@ -50,7 +42,7 @@ way for that sort of thing?
 Do I need one Trie for each Entity?  How is this going to scale, because some of these Entities will always be limited to a handful
 of rows and some will be terabytes of data.
 
-Right now everything's stored in ~~~~one Trie and that obviously has to change.
+Right now everything's stored in one Trie and that obviously has to change.
 
 ## Big Files
 
@@ -64,16 +56,6 @@ to handle this in Motoko?  Don't really fancy one file with 20,000 lines, or eve
 
 Is there composition or inheritance?  So if I've got 180 entity types and wanted each one to have a Created and Updated timestamp
 field, does it have to be added manually to each type?
-
-## Tuples
-
-Let's say you've got a many to many relation where Pupil )----( Class, and then we wanted to add a separate "Grade" into each row of
-the relationship.  In SQL we could have a table ( pupil_id, class_id, grade ) with a PK on pupil_id and class_id.  When defining
-the Pupil type in Motoko what's the best way to represent this as I'm not familiar with the nuances of the language or even the basics.
-
-## Types with Constructors?
-
-We can make a Types.String type for a field, but how could we do something like Types.String(20), where the field can take constructor arguments that can be used for validation, truncation etc.~~~~
 
 ## Fixtures
 

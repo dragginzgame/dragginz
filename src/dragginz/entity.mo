@@ -1,11 +1,14 @@
 import Hash "mo:base/Hash";
 import Result "mo:base/Result";
-import Types "types"
+import Types "./types"
 
 module {
 
   // List of Entity Types
+  // we'll probably need this eventually but not achieving much right now
   public type Entity = {
+  };
+  /*
     #Ability:             Ability;
     #AbilityGroup:        AbilityGroup;
     #Alignment:           Alignment;
@@ -21,7 +24,7 @@ module {
     #BuildTemplate:       BuildTemplate;
     #Character:           Character;
     #CharacterClass:      CharacterClass;
-    #CharacterTemplate:   CharacterTemplate;
+    #CharacterTemplate:   CharacterTemplate; 
     #Chunk:               Chunk;
     #Climate:             Climate;
     #Collider:            Collider;
@@ -83,61 +86,66 @@ module {
     #Weather:             Weather;
     #Zone:                Zone;
   };
+  */
 
   //
   // Entities
   // These work much the same as rows in a simple SQL table with a single PK
   //
 
-  // Metadata
-  // Each entity requires metadata that we can probably expand upon in the future
+  // Base
+  // Each entity requires the same list of fields... can probably expand upon in the future
   // for instance we could have a change log instead of just storing the creator
   // and last player to update
-  public type Metadata = {
-    created:        Types.Time;
-    lastModified:   Types.Time;
-    createdBy:      ?PlayerID;
-    lastModifiedBy: ?PlayerID;
+  public class Base() = {
+    var created =        Types.Time();
+    var lastModified =   Types.Time();
+    //var createdBy:      ?PlayerID;
+    //var lastModifiedBy: ?PlayerID;
   };
 
   // Ability
   public type AbilityID = Types.ID;
-  public type Ability = {
-    _metadata:   Metadata;
+  public class Ability() = {
+   // var _base:     Base = ???;
     // fields
-    name:        Types.EntityName;
-    description: Types.Description;
+    var name = Types.EntityName();
+    var description = Types.Description();
     // relations
-    icon:        IconID;
+    //icon        : IconID;
   };
+
 
   // AbilityGroup
   // a predefined group of abilities
   public type AbilityGroupID = Types.ID;
-  public type AbilityGroup = {
-    _metadata:   Metadata;
+  public class AbilityGroup() = {
+//    var base =     Base() : Base;
     // fields
-    name:        Types.EntityName;
-    description: Types.Description;
+    var name =        Types.EntityName();
+    var description = Types.Description();
     // relations
-    abilities:   [AbilityID];
+    var abilities:   [AbilityID] = [];
   };
+
 
   // Alignment
   public type AlignmentID = Types.ID;
-  public type Alignment = {
-    _metadata: Metadata;
+  public class Alignment() = {
+    //_base: Base;
     // fields
-    name:      Text;
+    var name = Types.EntityName();
   };
 
+};
+/*
   // AmbienceTemplate
   // The template for a particle effect or sound that can be placed within a Zone
   public type AmbienceTemplateID = Types.ID;
-  public type AmbienceTemplate = {
-    _metadata:    Metadata;
+  public class AmbienceTemplate() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     series:       ?Types.Series; 
     // relations
@@ -152,10 +160,10 @@ module {
 
   // Animation
   public type AnimationID = Types.ID;
-  public type Animation = {
-    _metadata:    Metadata;
+  public class Animation() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName;
     series:       ?Types.Series;
     // relations
     rig:          RigID;
@@ -166,10 +174,10 @@ module {
 
   // AreaGuide
   public type AreaGuideID = Types.ID;
-  public type AreaGuide = {
-    _metadata:   Metadata;
+  public class AreaGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName;
     description: Types.Description;
     area:        Types.Area;
   };
@@ -179,7 +187,7 @@ module {
 	// https://docs.unity3d.com/Manual/AssetBundlesIntro.html
   public type AssetBundleID = Types.ID;
   public type AssetBundle = {
-    _metadata: Metadata;
+    _base: Base;
     // fields
     asset:     Types.TODO;
     // relations
@@ -191,10 +199,10 @@ module {
 
   // Atmosphere
   public type AtmosphereID = Types.ID;
-  public type Atmosphere = {
-    _metadata:   Metadata;
+  public class Atmosphere() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name = Types.EntityName();
     description: Types.Description;
     // relations
     icon:        IconID;
@@ -207,10 +215,10 @@ module {
   // Biome
   // A Biome forms the template for a Zone's Atmosphere, Climate and Geology
   public type BiomeID = Types.ID;
-  public type Biome = {
-    _metadata:   Metadata;
+  public class Biome() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     // relations
     icon:        IconID;
@@ -224,10 +232,10 @@ module {
 
   // BuildProject
   public type BuildProjectID = Types.ID;
-  public type BuildProject = {
-    _metadata:   Metadata;
+  public class BuildProject() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName;
     description: Types.Description;
     // enums
     status:      BuildStatus;
@@ -247,7 +255,7 @@ module {
   // When a BuildProject is submitted to a BuildTask we create a BuildSubmission
   public type BuildSubmissionID = Types.ID;
   public type BuildSubmission = {
-    _metadata: Metadata;
+    _base: Base;
     // relations
     task:      BuildTaskID;
     project:   BuildProjectID;
@@ -257,10 +265,10 @@ module {
   // BuildTasks are created by the Dragginz Team to prioritise parts of the world that need
 	// creating or upgrading
   public type BuildTaskID = Types.ID;
-  public type BuildTask = {
-    _metadata:   Metadata;
+  public class BuildTask() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName;
     description: Types.Description;
     // relations
     zone:        ?ZoneID;
@@ -274,17 +282,17 @@ module {
 	// by their Team, they have to be locked and moved to a new owner
   public type BuildTemplateID = Types.ID;
   public type BuildTemplate = {
-    _metadata: Metadata;
+    _base: Base;
     // relations
     project:   BuildProjectID;
   };
 
   // Character
   public type CharacterID = Types.ID;
-  public type Character = {
-    _metadata:      Metadata;
+  public class Character() = {
+    _base:      Base;
     // fields
-    name:           Types.EntityName;
+    var name =           Types.EntityName();
     // relations
     player:         PlayerID;
     gender:         GenderID;
@@ -297,12 +305,12 @@ module {
 
   // CharacterClass
   // @todo I wanted this to be called Class, maybe that name could
-  // be within the metadata
+  // be within the Base
   public type CharacterClassID = Types.ID;
-  public type CharacterClass = {
-    _metadata: Metadata;
+  public class CharacterClass() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name    =  Types.EntityName();
     // relations
     icon:      IconID;
     concepts:  [ConceptID]; 
@@ -312,10 +320,10 @@ module {
 
   // CharacterTemplate
   public type CharacterTemplateID = Types.ID;
-  public type CharacterTemplate = {
-    _metadata: Metadata;
+  public class CharacterTemplate() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
     // relations
     gender:    GenderID;
     species:   SpeciesID;
@@ -327,7 +335,7 @@ module {
   // A chunk is a 10 meter cubed volume of the game world
   public type ChunkID = Types.ID;
   public type Chunk = {
-    _metadata: Metadata;
+    _base: Base;
     // fields
     x:         Types.ChunkCoord;
     y:         Types.ChunkCoord;
@@ -338,10 +346,10 @@ module {
 
   // Climate
   public type ClimateID = Types.ID;
-  public type Climate = {
-    _metadata:   Metadata;
+  public class Climate() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =       Types.EntityName();
     description: Types.Description;
     // relations
     icon:        IconID;
@@ -354,8 +362,8 @@ module {
   // Collider
   // A representation of a Collider within Unity
   public type ColliderID = Types.ID;
-  public type Collider = {
-    _metadata:     Metadata;
+  public class Collider() = {
+    _base:     Base;
     // fields
     isTrigger:     Bool;
     meshScale:     ?Float;
@@ -382,10 +390,10 @@ module {
 
   // Concept
   public type ConceptID = Types.ID;
-  public type Concept = {
-    _metadata:    Metadata;
+  public class Concept() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     asset:        Types.TODO;
     // structs
     status:       Status;
@@ -395,10 +403,10 @@ module {
   // CoverTemplate
   // a template for an instance of ground cover that can be placed within a Zone
   public type CoverTemplateID = Types.ID;
-  public type CoverTemplate = {
-    _metadata:    Metadata;
+  public class CoverTemplate() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     series:       ?Types.Series;
     // relations
@@ -413,10 +421,10 @@ module {
   // Culture
   // Culture is a template for a Zone's Population and Themes
   public type CultureID = Types.ID;
-  public type Culture = {
-    _metadata:    Metadata;
+  public class Culture() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     // relations
     icon:         IconID;
@@ -430,10 +438,10 @@ module {
 
   // DensityGuide
   public type DensityGuideID = Types.ID;
-  public type DensityGuide = {
-    _metadata:   Metadata;
+  public class DensityGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     density:     Types.Density;
   };
@@ -442,10 +450,10 @@ module {
   // You can't make a fantasy game without an arbitrary set of elemental powers
   // Earth, Wind, Fire, Air and probably Shadow
   public type ElementID = Types.ID;
-  public type Element = {
-    _metadata:   Metadata;
+  public class Element() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     sortOrder:   Types.SortOrder;
     // relations
@@ -454,10 +462,10 @@ module {
   
   // Era
   public type EraID = Types.ID;
-  public type Era = {
-    _metadata:   Metadata;
+  public class Era() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     startYear:   Types.GameYear;
     endYear:     Types.GameYear;
@@ -469,10 +477,10 @@ module {
 
   // FrictionGuide
   public type FrictionGuideID = Types.ID;
-  public type FrictionGuide = {
-    _metadata:   Metadata;
+  public class FrictionGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     friction:    Types.Friction;
   };
@@ -480,10 +488,10 @@ module {
   // Gender
   // An in-game gender, just Male or Female
   public type GenderID = Types.ID;
-  public type Gender = {
-    _metadata: Metadata;
+  public class Gender() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
     sortOrder: Types.SortOrder;
     // relations
     icon:      IconID;
@@ -493,10 +501,10 @@ module {
 
   // Geology
   public type GeologyID = Types.ID;
-  public type Geology = {
-    _metadata:   Metadata;
+  public class Geology() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =       Types.EntityName();
     description: Types.Description;
     // relations
     icon:        IconID;
@@ -508,10 +516,10 @@ module {
   // HardnessCategory
   // A category of Hardness, used to group different materials together for game mechanics
   public type HardnessCategoryID = Types.ID;
-  public type HardnessCategory = {
-    _metadata:   Metadata;
+  public class HardnessCategory() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     minHardness: Types.Hardness;
     maxHardness: Types.Hardness;
@@ -523,20 +531,20 @@ module {
 
   // HardnessGuide
   public type HardnessGuideID = Types.ID;
-  public type HardnessGuide = {
-    _metadata:   Metadata;
+  public class HardnessGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     hardness:    Types.Hardness;
   };
 
   // HeightGuide
   public type HeightGuideID = Types.ID;
-  public type HeightGuide = {
-    _metadata:   Metadata;
+  public class HeightGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     height:      Types.Distance;
   };
@@ -545,10 +553,10 @@ module {
   // A 240x240 PNG image used to represent basically anything in-game.  Will be used on the website,
   // client, and freely available to Players to use as memes.
   public type IconID = Types.ID;
-  public type Icon = {
-    _metadata:    Metadata;
+  public class Icon() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     asset:        Types.TODO;
     series:       ?Types.Series;
     // structs
@@ -560,10 +568,10 @@ module {
   // ItemTemplate
   // The definition of an Item, not the in-game instance of that Item
   public type ItemTemplateID = Types.ID;
-  public type ItemTemplate = {
-    _metadata: Metadata;
+  public class ItemTemplate() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
     // relations
     icon:      IconID;
     quality:   QualityID;
@@ -586,30 +594,30 @@ module {
 
   // LengthGuide
   public type LengthGuideID = Types.ID;
-  public type LengthGuide = {
-    _metadata:   Metadata;
+  public class LengthGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     length:      Types.Distance;
   };
 
   // MassGuide
   public type MassGuideID = Types.ID;
-  public type MassGuide = {
-    _metadata:   Metadata;
+  public class MassGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     mass:        Types.Mass;
   };
 
   // Material
   public type MaterialID = Types.ID;
-  public type Material = {
-    _metadata:   Metadata;
+  public class Material() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     colour:      Types.Colour;
     series:      ?Types.Series;
     // relations
@@ -623,8 +631,8 @@ module {
   // Mesh
   // A representation of a Mesh as defined by Unity
   public type MeshID = Types.ID;
-  public type Mesh = {
-    _metadata: Metadata;
+  public class Mesh() = {
+    _base: Base;
     // fields
     series:    ?Types.Series;
     // relations
@@ -637,10 +645,10 @@ module {
   // MobTemplate
   //
   public type MobTemplateID = Types.ID;
-  public type MobTemplate = {
-    _metadata:   Metadata;
+  public class MobTemplate() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     series:      ?Types.Series;
     // relations
@@ -657,10 +665,10 @@ module {
   // Model
   // The representation of a 3D Model as defined by Unity
   public type ModelID = Types.ID;
-  public type Model = {
-    _metadata:   Metadata;
+  public class Model() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     lodLevels:   Nat;   // 1 to 10
     volume:      ?Types.Volume;
@@ -674,10 +682,10 @@ module {
 
   // OpacityGuide
   public type OpacityGuideID = Types.ID;
-  public type OpacityGuide = {
-    _metadata:   Metadata;
+  public class OpacityGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     opacity:     Types.Opacity;
   };
@@ -685,10 +693,10 @@ module {
   // Pet
   // an actual instance of a Pet in the game
   public type PetID = Types.ID;
-  public type Pet = {
-    _metadata:   Metadata;
+  public class Pet() = {
+    _base:   Base;
     // fields
-    name:        Types.TODO;   // pet names are subject to extreme validation
+    name:         Types.TODO;   // pet names are subject to extreme validation
     // relations
     gender:      GenderID;
     owner:       CharacterID;
@@ -697,14 +705,14 @@ module {
 
   // PetStage
   public type PetStageID = Types.ID;
-  public type PetStage = {
-    _metadata:      Metadata;
+  public class PetStage() = {
+    _base:      Base;
     // fields
     name:           Types.EntityName;
     description:    Types.Description;
     rank:           Types.Rank;
     baseLevel:      Types.Level;
-    progressLevels: Nat;   // 1 to 20
+    var progressLevels = Types.NatRange(1, 20);   // 1 to 20
     // structs
     resource:       Resource;
     costs:          [Cost];
@@ -716,10 +724,10 @@ module {
   // PetTemplate
   // the list of the Pets that can be created by a Character
   public type PetTemplateID = Types.ID;
-  public type PetTemplate = {
-    _metadata:     Metadata;
+  public class PetTemplate() = {
+    _base:     Base;
     // fields
-    name:          Types.EntityName;
+    var name =     Types.EntityName();
     description:   Types.Description;
     // relations
     gender:        GenderID;
@@ -732,21 +740,22 @@ module {
   // A person who plays the game.  Preferably one Player account per person - we'll
   // try not to incentivise the creation of multiple accounts
   public type PlayerID = Types.ID;
-  public type Player = {
-    _metadata: Metadata;
+  public class Player() = {
+    _base:  Base;
     // fields
-    name:      Types.EntityName;
-    username:  Types.Username;
-    tag:       Nat;    // 0 to 9999 like Discord
+    var name     = Types.EntityName();
+    var username = Types.Username();
+    var tag      = Types.NatRange(0, 9999); 
   };
+  
 
   // Population
   // A Zone can have many Populations
   public type PopulationID = Types.ID;
-  public type Population = {
-    _metadata:    Metadata;
+  public class Population() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     // relations
     icon:         IconID;
@@ -762,10 +771,10 @@ module {
 
   // PropTemplate
   public type PropTemplateID = Types.ID;
-  public type PropTemplate = {
-    _metadata:    Metadata;
+  public class PropTemplate() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     series:       ?Types.Series;
     // relations
@@ -784,10 +793,10 @@ module {
   // The level of craftsmanship that an Item or Prop possesses.  Higher qualities increase the
   // value of an Item when sold, and can affect the loot rolls when an Item or Prop is broken down.
   public type QualityID = Types.ID;
-  public type Quality = {
-    _metadata:       Metadata;
+  public class Quality() = {
+    _base:       Base;
     // fields
-    name:            Types.EntityName;
+    var name =            Types.EntityName();
     valueMultiplier: Nat;
     // relations
     icon:            IconID; 
@@ -798,10 +807,10 @@ module {
   // Rarity
   // There are seven levels of Rarity 
   public type RarityID = Types.ID;
-  public type Rarity = {
-    _metadata:       Metadata;
+  public class Rarity() = {
+    _base:       Base;
     // fields
-    name:            Types.EntityName;
+    var name =            Types.EntityName();
     valueMultiplier: Nat;
     weighting:       Types.Weighting;
     // relations
@@ -812,10 +821,10 @@ module {
 
   // Recipe
   public type RecipeID = Types.ID;
-  public type Recipe = {
-    _metadata:    Metadata;
+  public class Recipe() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     // structs
     resource:     Resource;
@@ -828,10 +837,10 @@ module {
   // Release
   // A scheduled content release
   public type ReleaseID = Types.ID;
-  public type Release = {
-    _metadata:    Metadata;
+  public class Release() = {
+    _base:    Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     startTime:   Types.Time;
     // relations
@@ -840,10 +849,10 @@ module {
 
   // ResonanceGuide
   public type ResonanceGuideID = Types.ID;
-  public type ResonanceGuide = {
-    _metadata:   Metadata;
+  public class ResonanceGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName;
     description: Types.Description;
     resonance:   Types.Resonance;
   };
@@ -851,10 +860,10 @@ module {
   // Rig
   // A Rig as specified by Unity
   public type RigID = Types.ID;
-  public type Rig = {
-    _metadata:    Metadata;
+  public class Rig() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     series:       ?Types.Series;
     // relations
     animations:   [AnimationID];
@@ -865,10 +874,10 @@ module {
 
   // Role
   public type RoleID = Types.ID;
-  public type Role = {
-    _metadata:      Metadata;
+  public class Role() = {
+    _base:      Base;
     // fields
-    name:           Types.EntityName;
+    var name =           Types.EntityName();
     description:    Types.Description;
     baseLevel:      Nat;
     progressLevels: Nat;  // 1 to 20
@@ -888,15 +897,15 @@ module {
 
   // Shader
   public type ShaderID = Types.ID;
-  public type Shader = {
+  public class Shader() = {
     #unity: {
-      _metadata:      Metadata;
+      _base:      Base;
       className: {
         #normal: Text;
       };
     };
     #asset: {
-      _metadata:      Metadata;
+      _base:      Base;
       // fields
       asset:        Types.TODO;
       series:       ?Types.Series;
@@ -909,10 +918,10 @@ module {
   // SizeCategory
   // Grouping objects by their size, so for instance, a sword may have a bonus against large creatures
   public type SizeCategoryID = Types.ID;
-  public type SizeCategory = {
-    _metadata:   Metadata;
+  public class SizeCategory() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =    Types.EntityName();
     description: Types.Description;
     minSize:     Types.Distance;     // size of longest dimension
     maxSize:     Types.Distance;     // size of longest dimension
@@ -925,10 +934,10 @@ module {
   // SkyboxTemplate
   // The template for the Skybox used in a Zone
   public type SkyboxTemplateID = Types.ID;
-  public type SkyboxTemplate = {
-    _metadata:   Metadata;
+  public class SkyboxTemplate() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =       Types.EntityName;
     description: Types.Description;
     asset:       Types.TODO;
     // structs
@@ -937,10 +946,10 @@ module {
 
   // Sound
   public type SoundID = Types.ID;
-  public type Sound = {
-    _metadata: Metadata;
+  public class Sound() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
     series:    ?Types.Series;
     // relations
     layers:    [SoundLayerID];
@@ -950,8 +959,8 @@ module {
 
   // SoundComponent
   public type SoundComponentID = Types.ID;
-  public type SoundComponent = {
-    _metadata:  Metadata;
+  public class SoundComponent() = {
+    _base:  Base;
     // fields
     isRandom:   Bool;
     isRepeated: Bool;
@@ -961,10 +970,10 @@ module {
 
   // SoundFile
   public type SoundFileID = Types.ID;
-  public type SoundFile = {
-    _metadata:  Metadata;
+  public class SoundFile() = {
+    _base:  Base;
     // fields
-    name:       Types.EntityName;
+    var name =       Types.EntityName();
     length:     Types.Interval;
     lufs:       Int;               // -99 to 99
     sampleRate: Int;               // readonly? @todo
@@ -976,10 +985,10 @@ module {
   // SoundLayer
   // describes a complete single layer within a sound effect (layers also implement audio LOD)
   public type SoundLayerID = Types.ID;
-  public type SoundLayer = {
-    _metadata:   Metadata;
+  public class SoundLayer() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     delay:       Types.Interval;
     level:       Float;               // 0 to 1
     minDistance: Nat;                 // 0 to 10
@@ -990,8 +999,8 @@ module {
 
   // SoundLoop
   public type SoundLoopID = Types.ID;
-  public type SoundLoop = {
-    _metadata:     Metadata;
+  public class SoundLoop() = {
+    _base:     Base;
     // fields
     startPos:      Types.Interval;
     endPos:        Types.Interval;
@@ -1004,10 +1013,10 @@ module {
 
   // SoundVariant
   public type SoundVariantID = Types.ID;
-  public type SoundVariant = {
-    _metadata:    Metadata;
+  public class SoundVariant() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     playbackRate: Nat;              // 0 to 5
     bypassReverb: Bool;
     // relations
@@ -1018,10 +1027,10 @@ module {
   // Species
   // TREE STRUCTURE @todo
   public type SpeciesID = Types.ID;
-  public type Species = {
-    _metadata: Metadata;
+  public class Species() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
   };
 
   // Substance
@@ -1029,10 +1038,10 @@ module {
   // not break them down into elements, which in most cases would be overly complex
   // @todo Tree structure
   public type SubstanceID = Types.ID;
-  public type Substance = {
-    _metadata:   Metadata;
+  public class Substance() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name  =      Types.EntityName();
     description: Types.Description;
     density:     Types.Density;
     hardness:    Types.Hardness;
@@ -1044,10 +1053,10 @@ module {
   // Tag
   // a list of generic string tags that are used to describe zones in different ways
   public type TagID = Types.ID;
-  public type Tag = {
-    _metadata:   Metadata;
+  public class Tag() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
   };
 
@@ -1056,10 +1065,10 @@ module {
   // used in a more ephemeral way, such as grouping together people temporarily to work
   // on a Zone
   public type TeamID = Types.ID;
-  public type Team = {
-    _metadata: Metadata;
+  public class Team() = {
+    _base: Base;
     // fields
-    name:      Types.EntityName;
+    var name =      Types.EntityName();
     // relations
     players:   [PlayerID];
   };
@@ -1067,10 +1076,10 @@ module {
   // TemperatureCategory
   // grouping objects into temperature ranges
   public type TemperatureCategoryID = Types.ID;
-  public type TemperatureCategory = {
-    _metadata:   Metadata;
+  public class TemperatureCategory() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     minTemp:     Types.Temperature;
     maxTemp:     Types.Temperature;
@@ -1082,10 +1091,10 @@ module {
 
   // TemperatureGuide
   public type TemperatureGuideID = Types.ID;
-  public type TemperatureGuide = {
-    _metadata:   Metadata;
+  public class TemperatureGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =       Types.EntityName();
     description: Types.Description;
     temperature: Types.Temperature;
   };
@@ -1094,10 +1103,10 @@ module {
   // The various terrain found in our Dragginz Terrain System, utilising a set of shapes
   // based on cubes and diagonals
   public type TerrainID = Types.ID;
-  public type Terrain = {
-    _metadata:   Metadata;
+  public class Terrain() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     resonance:   Types.Resonance;
     // relations
@@ -1110,10 +1119,10 @@ module {
 
   // Texture
   public type TextureID = Types.ID;
-  public type Texture = {
-    _metadata:    Metadata;
+  public class Texture() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     asset:        Types.TODO;
     series:       ?Types.Series;
     // enums
@@ -1129,8 +1138,8 @@ module {
   // TextureAtlas
   // A single PNG image containing many other PNG images tiled together, as per Unity
   public type TextureAtlasID = Types.ID;
-  public type TextureAtlas = { 
-    _metadata: Metadata;
+  public class TextureAtlas() = { 
+    _base: Base;
     // fields
     asset:     Types.TODO;
     // relations
@@ -1139,10 +1148,10 @@ module {
 
   // Theme
   public type ThemeID = Types.ID;
-  public type Theme = {
-    _metadata:    Metadata;
+  public class Theme() = {
+    _base:    Base;
     // fields
-    name:         Types.EntityName;
+    var name =         Types.EntityName();
     description:  Types.Description;
     // relations
     icon:         IconID;
@@ -1153,30 +1162,30 @@ module {
 
   // VelocityGuide
   public type VelocityGuideID = Types.ID;
-  public type VelocityGuide = {
-    _metadata:   Metadata;
+  public class VelocityGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     velocity:    Types.Velocity;
   };
 
   // VolumeGuide
   public type VolumeGuideID = Types.ID;
-  public type VolumeGuide = {
-    _metadata:   Metadata;
+  public class VolumeGuide() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     volume:      Types.Volume;
   };
 
   // Weather
   public type WeatherID = Types.ID;
-  public type Weather = {
-    _metadata:   Metadata;
+  public class Weather() = {
+    _base:   Base;
     // fields
-    name:        Types.EntityName;
+    var name =        Types.EntityName();
     description: Types.Description;
     // relations
     icon:        IconID;
@@ -1188,10 +1197,10 @@ module {
   // our game world is divided into a tree of Zones
   // if a Zone is removed, don't repurpose just set isRetired to true
   public type ZoneID = Types.ID;
-  public type Zone = {
-    _metadata:         Metadata;
+  public class Zone() = {
+    _base:         Base;
     // fields
-    name:              Types.EntityName;
+    var name =              Types.EntityName();
     description:       Types.Description;
     isVirtual:         Bool;    // is this zone physically within the game world?
     isRetired:         Bool;    // has this zone been retired    
@@ -1237,7 +1246,6 @@ module {
     uses:     Nat;  // 1 to 20
     rolling:  Bool;
   };
-
 
   // Contributor
   public type Contributor = {
@@ -1445,4 +1453,4 @@ module {
   };
 
 };
- 
+ */
