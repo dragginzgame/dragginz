@@ -1,6 +1,6 @@
 import TrieMap "mo:base/TrieMap";
 import Hash "mo:base/Hash";
-import Result "mo:base/Result";
+import Debug "mo:base/Debug";
 import Entity "./entity";
 import Types "./types";
   
@@ -16,6 +16,13 @@ actor Database {
         func(id : ID) { id },    // don't think this actually hashes it
     );
     private stable var nextID : ID = 0;
+
+    public func test() : () {
+        var c = Entity.Ability(); 
+        c.name.set("hello yes"); 
+
+        Debug.print(c.name.get());
+    };
 
     // create
     public func create(e : Entity.Entity) : async ID {
