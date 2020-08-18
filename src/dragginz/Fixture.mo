@@ -37,7 +37,7 @@ module {
   };
 
   // LengthGuide
-  public class LengthGuide = {
+  public type LengthGuide = {
     name:        Types.Name;
     description: Types.Description;
     length:      Types.Distance;
@@ -51,7 +51,7 @@ module {
   };
   
   // OpacityGuide
-  public class OpacityGuide = {
+  public type OpacityGuide = {
     name:        Types.Name;
     description: Types.Description;
     opacity:     Types.Opacity;
@@ -65,26 +65,24 @@ module {
   };
 
   // TemperatureGuide
-  public class TemperatureGuide = {
+  public type TemperatureGuide = {
     name:        Types.Name;
     description: Types.Description;
     temperature: Types.Temperature;
   };
 
   // VelocityGuide
-  public class VelocityGuide() = {
+  public type VelocityGuide = {
     name:        Types.Name;
     description: Types.Description;
     velocity:    Types.Velocity;
   };
 
   // VolumeGuide
-  public type VolumeGuideID = Types.ID;
-  public class VolumeGuide() = {
+  public type VolumeGuide = {
     name:        Types.Name;
     description: Types.Description;
     volume:      Types.Volume;
   };
-
 
 }

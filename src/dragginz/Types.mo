@@ -11,15 +11,22 @@ module {
   // Aliases
   public type TODO     = Nat;
 
+  // Not yet supported in motoko
+  public type Interval    = Nat;
+  public type Time        = Int;
+  public type UUID        = Text;
+
+  // Game Concepts
   public type ChunkCoord  = Int;
   public type GameYear    = Int;
   public type Level       = Nat;
   public type Rank        = Nat;
   public type Series      = ?Nat;
   public type SortOrder   = Int;
-  public type Time        = Int;
   public type Weighting   = Float;
 
+  // Maths
+  public type PercentNat  = Nat;
 
   // Physics
   public type Area        = Float;

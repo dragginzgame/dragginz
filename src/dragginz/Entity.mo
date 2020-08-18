@@ -95,7 +95,7 @@ module {
     name:          Text;
     description:   Text;
     // relations
-    icon:          IconID;
+    icon:          IconID; 
   };
   public class AbilitySchema(e : Ability) = {
     public var name         = Schema.Name();
@@ -547,7 +547,6 @@ module {
     var description =         Schema.Description();
   };
 
-
   //
   // Element
   // You can't make a fantasy game without an arbitrary set of elemental powers
@@ -589,7 +588,7 @@ module {
     // structs
     resource:     Resource;
   };
-  public class EraSchema() = {
+  public class EraSchema(e : Era) = {
     var name        = Schema.Name();
     var description = Schema.Description();
     var startYear   = Schema.GameYear();
@@ -613,7 +612,7 @@ module {
     // structs
     resource:     Resource;
   };
-  public class GenderSchema() = {
+  public class GenderSchema(e : Gender) = {
     var name =      Schema.Name();
     var sortOrder =      Schema.SortOrder();
   };
@@ -635,11 +634,10 @@ module {
     // structs
     resource:    Resource;
   };
-  public class GeologySchema() = {
+  public class GeologySchema(e : Geology) = {
     var name =       Schema.Name();
     var description =       Schema.Description();
   };
-
 
   //
   // HardnessCategory
@@ -686,7 +684,7 @@ module {
     status:       Status;
     contributors: [Contributor];
   };
-  public class IconSchema() = {
+  public class IconSchema(e : Icon) = {
     var name =         Schema.Name();
   };
 
@@ -725,7 +723,10 @@ module {
     var name =      Schema.Name();
   };
 
+  //
   // Material
+  //
+
   public type MaterialID = Types.ID;
   public type Material = {
     created:      Types.Time;
@@ -741,12 +742,15 @@ module {
     // structs
     status:      Status;
   };
-  public class MaterialSchema() = {
+  public class MaterialSchema(e : Material) = {
     var name =        Schema.Name();
   };
 
+  //
   // Mesh
   // A representation of a Mesh as defined by Unity
+  //
+
   public type MeshID = Types.ID;
   public type Mesh = {
     created:      Types.Time;
@@ -759,26 +763,30 @@ module {
     // structs
     status:    Status;
   };
+  public class MeshSchema(e : Mesh) = {
+  };
 
+  //
   // MobTemplate
   //
+
   public type MobTemplateID = Types.ID;
   public type MobTemplate = {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
-    name:        Text;
-    description: Text;
-    series:      ?Types.Series;
+    name:         Text;
+    description:  Text;
+    series:       ?Types.Series;
     // relations
-    icon:        IconID;
-    concepts:    [ConceptID];
-    tags:        [TagID];
+    icon:         IconID;
+    concepts:     [ConceptID];
+    tags:         [TagID];
     // structs
-    modelImp:    ModelImp;
-    resource:    Resource;
-    status:      Status;
-    composition: SubstanceComposition;
+    modelImp:     ModelImp;
+    resource:     Resource;
+    status:       Status;
+    composition:  SubstanceComposition;
   };
   public class MobTemplateSchema(e : MobTemplate) = {
     var name =        Schema.Name();
@@ -808,8 +816,11 @@ module {
     var description =  Schema.Description();
   };
 
+  //
   // Pet
   // an actual instance of a Pet in the game
+  //
+
   public type PetID = Types.ID;
   public type Pet = {
     created:      Types.Time;
@@ -825,11 +836,14 @@ module {
     var name =        Schema.TODO();
   };
 
+  //
   // PetStage
+  //
+
   public type PetStageID = Types.ID;
   public type PetStage = {
-    created:      Types.Time;
-    lastModified: Types.Time;
+    created:        Types.Time;
+    lastModified:   Types.Time;
     // fields
     name:           Text; 
     description:    Text;
@@ -849,8 +863,11 @@ module {
     var progressLevels = Schema.NatRange(1, 20);   // 1 to 20
   };
 
+  //
   // PetTemplate
   // the list of the Pets that can be created by a Character
+  //
+
   public type PetTemplateID = Types.ID;
   public type PetTemplate = {
     created:      Types.Time;
@@ -864,7 +881,7 @@ module {
     // structs
     restrictions:  [Restriction];
   };
-  public class PetTemplateSchema() = {
+  public class PetTemplateSchema(e : PetTemplate) = {
     var name =     Schema.Name();
     var description =     Schema.Description();
   };
@@ -887,9 +904,11 @@ module {
     var tag      = Schema.NatRange(0, 9999); 
   };
   
-
+  //
   // Population
   // A Zone can have many Populations
+  //
+
   public type PopulationID = Types.ID;
   public type Population = {
     created:      Types.Time;
@@ -913,7 +932,10 @@ module {
     var description = Schema.Description();
   };
 
+  //
   // PropTemplate
+  //
+
   public type PropTemplateID = Types.ID;
   public type PropTemplate = {
     created:      Types.Time;
@@ -938,9 +960,12 @@ module {
     var description = Schema.Description();
   };
   
+  //
   // Quality
   // The level of craftsmanship that an Item or Prop possesses.  Higher qualities increase the
-  // value of an Item when sold, and can affect the loot rolls when an Item or Prop is broken down.
+  // value of an Item when sold, and can affect the loot rolls when an Item or Prop is broken down
+  //
+
   public type QualityID = Types.ID;
   public type Quality = {
     created:      Types.Time;
@@ -959,8 +984,11 @@ module {
     var description = Schema.Description();
   };
 
+  //
   // Rarity
-  // There are seven levels of Rarity 
+  // There are seven levels of Rarity
+  //
+
   public type RarityID = Types.ID;
   public type Rarity = {
     created:      Types.Time;
@@ -1023,8 +1051,11 @@ module {
     var description = Schema.Description();
   };
 
+  //
   // Rig
   // A Rig as specified by Unity
+  //
+
   public type RigID = Types.ID;
   public type Rig = {
     created:      Types.Time;
@@ -1045,7 +1076,7 @@ module {
 
   // Role
   public type RoleID = Types.ID;
-  public class Role() = {
+  public type Role = {
     created:       Types.Time;
     lastModified:  Types.Time;
     // fields
@@ -1071,9 +1102,12 @@ module {
     var description = Schema.Description();
   };
 
+  //
   // Shader
+  //
+
   public type ShaderID = Types.ID;
-  public class Shader() = {
+  public type Shader = {
     #unity: {
       created:      Types.Time;
       lastModified: Types.Time;
@@ -1096,14 +1130,17 @@ module {
 
   };
 
+  //
   // SizeCategory
   // Grouping objects by their size, so for instance, a sword may have a bonus against large creatures
+  //
+
   public type SizeCategoryID = Types.ID;
   public type SizeCategory = {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
-    var name =    Text();
+    name:        Text;
     description: Text;
     minSize:     Types.Distance;     // size of longest dimension
     maxSize:     Types.Distance;     // size of longest dimension
@@ -1113,11 +1150,15 @@ module {
     resource:    Resource;
   };
   public class SizeCategorySchema(e : SizeCategory) = {
-
+    var name = Schema.Name();
+    var description = Schema.Description();
   };
 
+  //
   // SkyboxTemplate
   // The template for the Skybox used in a Zone
+  //
+
   public type SkyboxTemplateID = Types.ID;
   public type SkyboxTemplate = {
       created:      Types.Time;
@@ -1129,8 +1170,8 @@ module {
     // structs
     status:      Status;
   };
-  public class SkyboxTemplateSchema(e : SkyboxTemplate)= {
-    var name =       Schema.Text();
+  public class SkyboxTemplateSchema(e : SkyboxTemplate) = {
+    var name =       Schema.Name();
     var description = Schema.Description();
   };
 
@@ -1139,16 +1180,19 @@ module {
   //
 
   public type SoundID = Types.ID;
-  public class Sound() = {
+  public type Sound = {
       created:      Types.Time;
       lastModified: Types.Time;
     // fields
-    var name =      Text();
+    name:      Text;
     series:    ?Types.Series;
     // relations
     layers:    [SoundLayerID];
     // structs
     status:    Status;
+  };
+  public class SoundSchema(e : Sound) = {
+     var name =       Schema.Name();
   };
 
   //
@@ -1168,26 +1212,32 @@ module {
   public class SoundComponentSchema(e : SoundComponent) = {
   };
 
+  //
   // SoundFile
+  //
+
   public type SoundFileID = Types.ID;
-  public class SoundFile() = {
+  public type SoundFile = {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
-    var name =       Text();
+    name:       Text;
     length:     Types.Interval;
     lufs:       Int;               // -99 to 99
     sampleRate: Int;               // readonly? @todo
     asset:      Types.TODO;
     // enums
-    channel:    SoundChannel;
+    channel:    Variant.SoundChannel;
   };
   public class SoundFileSchema(e : SoundFile) = {
-
+    var name =        Schema.Name();
   };
 
+  //
   // SoundLayer
   // describes a complete single layer within a sound effect (layers also implement audio LOD)
+  //
+
   public type SoundLayerID = Types.ID;
   public type SoundLayer = {
     created:      Types.Time;
@@ -1202,14 +1252,14 @@ module {
     components:   [SoundComponentID];
   };
   public class SoundLayerSchema(e : SoundLayer) = {
-    var name =        Text();
+    var name =        Schema.Name();
   };
 
   // SoundLoop
   public type SoundLoopID = Types.ID;
-  public class SoundLoop() = {
-      created:      Types.Time;
-      lastModified: Types.Time;
+  public type SoundLoop = {
+    created:      Types.Time;
+    lastModified: Types.Time;
     // fields
     startPos:      Types.Interval;
     endPos:        Types.Interval;
@@ -1218,6 +1268,8 @@ module {
     repeatTime:    ?Types.Interval;
     bounce:        Bool;
     reverse:       Bool;
+  };
+  public class SoundLoopSchema(e : SoundLoop) = {
   };
 
   // SoundVariant
@@ -1243,7 +1295,7 @@ module {
   //
 
   public type SpeciesID = Types.ID;
-  public class Species() = {
+  public type Species = {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
@@ -1342,11 +1394,11 @@ module {
   // The various terrain found in our Dragginz Terrain System, utilising a set of shapes
   // based on cubes and diagonals
   public type TerrainID = Types.ID;
-  public class Terrain() = {
-      created:      Types.Time;
-      lastModified: Types.Time;
+  public type Terrain = {
+    created:      Types.Time;
+    lastModified: Types.Time;
     // fields
-    var name =        Text();
+    name:        Text;
     description: Text;
     resonance:   Types.Resonance;
     // relations
@@ -1356,18 +1408,25 @@ module {
     composition: SubstanceComposition;
     resource:    Resource;
   };
+  public class TerrainSchema(e : Terrain) = {
+    var name =      Schema.Name();
+    var description =      Schema.Description();
+  };
 
+  //
   // Texture
+  //
+
   public type TextureID = Types.ID;
-  public class Texture() = {
-      created:      Types.Time;
-      lastModified: Types.Time;
+  public type Texture = {
+    created:      Types.Time;
+    lastModified: Types.Time;
     // fields
-    var name =         Text();
+    name:         Text;
     asset:        Types.TODO;
     series:       ?Types.Series;
     // enums
-    textureType:  TextureType;
+    textureType:  Variant.TextureType;
     // relations
     material:     ?MaterialID;
     // structs
@@ -1375,26 +1434,34 @@ module {
     status:       Status;
     contributors: [Contributor];
   };
+  public class TextureClass(e : Texture) = {
+    var name =      Schema.Name();
+  };
 
   // TextureAtlas
   // A single PNG image containing many other PNG images tiled together, as per Unity
   public type TextureAtlasID = Types.ID;
-  public class TextureAtlas() = { 
-      created:      Types.Time;
-      lastModified: Types.Time;
+  public type TextureAtlas = { 
+    created:      Types.Time;
+    lastModified: Types.Time;
     // fields
     asset:     Types.TODO;
     // relations
     textures:  [TextureID]
   };
+  public class TextureAtlasSchema(e : TextureAtlas) = {
+  };
 
+  //
   // Theme
+  //
+
   public type ThemeID = Types.ID;
-  public class Theme() = {
+  public type Theme = {
       created:      Types.Time;
       lastModified: Types.Time;
     // fields
-    var name =         Text();
+    name:         Text;
     description:  Text;
     // relations
     icon:         IconID;
@@ -1402,19 +1469,30 @@ module {
     // structs
     resource:     Resource;
   };
+  public class ThemeSchema(e : Theme) = {
+    var name =      Schema.Name();
+    var description =      Schema.Description();
+  };
 
+  //
   // Weather
+  //
+
   public type WeatherID = Types.ID;
-  public class Weather() = {
-      created:      Types.Time;
-      lastModified: Types.Time;
+  public type Weather = {
+    created:      Types.Time;
+    lastModified: Types.Time;
     // fields
-    var name =        Text();
+    name:        Text;
     description: Text;
     // relations
     icon:        IconID;
     // structs
     resource:    Resource;
+  };
+  public class WeatherClass(e : Weather) = {
+    var name =      Schema.Name();
+    var description =      Schema.Description();
   };
 
   //
@@ -1449,8 +1527,8 @@ module {
     population:        [PopulationID];
     theme:             [ThemeID];
     // structs
-    resource:          Struct.Resource;
-    status:            Struct.Status;
+    resource:          Resource;
+    status:            Status;
   };
   public class ZoneSchema(e : Zone) = {
     var name =              Schema.Name();
@@ -1533,7 +1611,7 @@ module {
   // the implementation of a Model
   public type ModelImp = {
     // fields
-    sizeModifier: Types.Percent;
+    sizeModifier: Types.PercentNat;
     // relations
     model:        ModelID;
     // structs
@@ -1597,7 +1675,7 @@ module {
       roles:    [RoleID];
       species:  [SpeciesID];
     };
-    pet: ?{
+    pet: ?{ 
       elements: [ElementID];
       species:  [SpeciesID];
     };
@@ -1615,7 +1693,7 @@ module {
   // A single dice-based random number generator.  Multiple RNGs can be combined together
   // using addition
   public type RNG = {
-    chance:     Types.Percent;
+    chance:     Types.PercentNat;
     dice:       Nat;
     faces:      Nat;
     dropHigh:   Nat;

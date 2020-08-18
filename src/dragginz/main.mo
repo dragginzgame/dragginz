@@ -1,8 +1,8 @@
 import TrieMap "mo:base/TrieMap";
 import Hash "mo:base/Hash";
 import Debug "mo:base/Debug";
-import Entity "./Entity";
-import Types "./Types";
+import Entity "Entity";
+import Types "Types";
   
 // Database
 actor Database {
@@ -18,10 +18,6 @@ actor Database {
     private stable var nextID : ID = 0;
 
     public func test() : () {
-        var c = Entity.Ability(); 
-        c.name.set("hello yes"); 
-
-        Debug.print(c.name.get());
     };
 
     // create
