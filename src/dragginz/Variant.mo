@@ -19,11 +19,24 @@ module {
     #approved;
   };
 
+  // ShaderClass
+  // the class name of a built in Unity shader
+  public type ShaderClass = {
+    #normal; 
+  };
+
   // SoundChannel
   // @todo identifiers with numbers?
   public type SoundChannel = {
     #twodotone; 
     #fivedotone;
+  };
+
+  // SubstancePosition
+  public type SubstancePosition = {
+    #both;
+    #core;
+    #surface;
   };
 
   // TextureType

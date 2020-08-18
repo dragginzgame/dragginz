@@ -49,6 +49,7 @@ module {
   // Shortcuts
   public func ChunkCoord()  : Type<Nat>  { NatType() };
   public func Description() : Type<Text> { TextType(200) };
+  public func FlavourText() : Type<Text> { TextType(200) };
   public func Interval()    : Type<Nat>  { NatType() };
   public func Name()        : Type<Text> { TextType(20) };
   public func SortOrder()   : Type<Nat>  { NatType() };
@@ -60,12 +61,10 @@ module {
   //
   // Game Design Concepts
   //
-  public func GameYear()    : Type<Int> { IntType() };
-  public func Level()       : Type<Int> { IntRange(0, 10) };
-  public func Rank()        : Type<Nat> { NatRange(0, 8) };
-
-
-
+  public func GameYear()        : Type<Int>   { IntType() };
+  public func Level()           : Type<Int>   { IntRange(0, 10) };
+  public func Rank()            : Type<Nat>   { NatRange(0, 8) };
+  public func ValueMultiplier() : Type<Float> { FloatRange(0, 20) };
 
   //
   // Physics

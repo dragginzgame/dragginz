@@ -8,7 +8,9 @@ Our stack is currently Unity, SpatialOS/Improbable, and we're looking to replace
 Currently we are attempting to assemble a giant data model (500+ entities) with validation and filtering/sanitisation rules.  It's imperative that all the data that builds this world is carefully curated and error checked.  Previously we
 used CockroachDB as our storage layer.
 
-The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortressset in a very vertical, 3D Labyrinth/Dark Crystal type world.---
+The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortressset in a very vertical, 3D Labyrinth/Dark Crystal type world.
+
+---
 
 # Notes
 
@@ -32,33 +34,15 @@ encrypted somehow, but in the meantime how can I generate a random UUID?  Basica
 
 # ??? Questions ???
 
-## File Naming?
-
-dfx new creates a main.mo, but other projects seem to use capital letters for their files.  Types.mo, Database.mo, etc.  Is there a best
-way for that sort of thing?
-
-## Storage
-
-Do I need one Trie for each Entity?  How is this going to scale, because some of these Entities will always be limited to a handful
-of rows and some will be terabytes of data.
-
-Right now everything's stored in one Trie and that obviously has to change.
-
-## Big Files
-
-So the current design has about 185 tables, but that's a SQL data model so it includes join tables and enums and other such things
-that we wouldn't need within Motoko.  This could easily be over 300 tables by the time the game goes live.
-
-Go automatically includes all the files in one directory, and I *still* had to split it into subdirectories.  What is the best way
-to handle this in Motoko?  Don't really fancy one file with 20,000 lines, or even a massive list of includes.~~~~
-
-## Class Inheritance
-
-Is there composition or inheritance?  So if I've got 180 entity types and wanted each one to have a Created and Updated timestamp
-field, does it have to be added manually to each type?
-
 ## Fixtures
 
 Need a good way to instantiate data that's static and unchanging, such as the different levels of Rarity.  Could potentially tables like Rarity, AreaGuide, LengthGuide be stored in a different format.
 
 ---
+
+# WOULD BE NICE ...
+
+## Multiple Files per Namespace
+
+Would be easier if you could include a whole directory of files into one namespace, like Go.
+

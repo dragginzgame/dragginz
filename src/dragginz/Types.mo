@@ -21,7 +21,7 @@ module {
   public type GameYear    = Int;
   public type Level       = Nat;
   public type Rank        = Nat;
-  public type Series      = ?Nat;
+  public type Series      = Nat;
   public type SortOrder   = Int;
   public type Weighting   = Float;
 
