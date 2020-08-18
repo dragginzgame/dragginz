@@ -9,7 +9,7 @@ module {
   //
 
   // Aliases
-  public type TODO     = Nat;
+  public type TODO        = Nat;
 
   // Not yet supported in motoko
   public type Interval    = Nat;
