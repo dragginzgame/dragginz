@@ -11,10 +11,28 @@ module {
   // Aliases
   public type TODO     = Nat;
 
-  public type GameYear = Int;
-  public type Series   = ?Nat;
-  public type Time     = Int;
+  public type ChunkCoord  = Int;
+  public type GameYear    = Int;
+  public type Level       = Nat;
+  public type Rank        = Nat;
+  public type Series      = ?Nat;
+  public type SortOrder   = Int;
+  public type Time        = Int;
+  public type Weighting   = Float;
 
+
+  // Physics
+  public type Area        = Float;
+  public type Density     = Float;
+  public type Distance    = Float;
+  public type Friction    = Nat;
+  public type Hardness    = Nat;
+  public type Mass        = Float;
+  public type Opacity     = Nat;
+  public type Resonance   = Nat;
+  public type Temperature = Int;
+  public type Velocity    = Float;
+  public type Volume      = Float;
 
   //
   // Compound Types

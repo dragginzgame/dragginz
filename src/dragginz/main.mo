@@ -1,8 +1,8 @@
 import TrieMap "mo:base/TrieMap";
 import Hash "mo:base/Hash";
 import Debug "mo:base/Debug";
-import Entity "./entity";
-import Types "./types";
+import Entity "./Entity";
+import Types "./Types";
   
 // Database
 actor Database {
@@ -25,7 +25,7 @@ actor Database {
     };
 
     // create
-    public func create(e : Entity.Entity) : async ID {
+    public func create(e : Entity.Entity) : async ID { 
         nextID += 1; 
         dataStore.put(nextID, e);
         return nextID;

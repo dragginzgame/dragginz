@@ -1,17 +1,61 @@
 import Hash "mo:base/Hash";
+import Types "Types";
 
 module {
 
+  type Type<T> = {
+    sanitise : () -> T;
+    validate : () -> Bool;
+  };
+
+  public class FloatType() {
+    public var value : Float = 0;
+    public func sanitise() : Float { value };
+    public func validate() : Bool { true };
+  };
+
+  public class IntType() {
+    public var value : Int = 0;
+    public func sanitise() : Int { value };
+    public func validate() : Bool { true };
+  };
+
+  public class NatType() {
+    public var value : Nat = 0;
+    public func sanitise() : Nat { value };
+    public func validate() : Bool { true };
+  };
+
+  public class TextType(len : Nat) {
+    var value : Text = "";
+    public func sanitise() : Text { value };
+    public func validate() : Bool { value.size() <= len };
+  };
+
+  public class TimeType() {
+    public var value : Time = 0;
+    public func sanitise() : Time { value };
+    public func validate() : Bool { true };
+  };
+
+  //
+  // Motoko Wrapped Types 
+  // update these as the base classes change
+  //
+  type Time = Nat;
+
+  public func TODO() : Type<Nat> { NatType() };
+
   // Shortcuts
+  public func ChunkCoord()  : Type<Nat>  { NatType() };
   public func Description() : Type<Text> { TextType(200) };
-  public func EntityName()  : Type<Text> { TextType(20) };
+  public func Interval()    : Type<Nat>  { NatType() };
+  public func Name()        : Type<Text> { TextType(20) };
+  public func SortOrder()   : Type<Nat>  { NatType() };
+  public func Time()        : Type<Time> { TimeType() };
   public func Username()    : Type<Text> { TextType(20) };
   public func UUID()        : Type<Text> { TextType(32) };
-  public func ChunkCoord()  : Type<Nat>  { NatType() };
-  public func Interval()    : Type<Nat>  { NatType() };
-  public func SortOrder()   : Type<Nat>  { NatType() };
   public func Weighting()   : Type<Nat>  { NatType() };
-  public func Time()        : Type<Time> { TimeType() };
 
   //
   // Game Design Concepts
@@ -20,10 +64,7 @@ module {
   public func Level()       : Type<Int> { IntRange(0, 10) };
   public func Rank()        : Type<Nat> { NatRange(0, 8) };
 
-  //
-  // Motoko Wrapped Types
-  // update these as the base classes change
-  //
+
 
 
   //
@@ -48,6 +89,17 @@ module {
   // Mathematical Anti-Telharsic Harfatum Septonin 
   //
   public func Percent() : Type<Nat> { NatRange(0, 100) };
+
+  public func FloatRange(min : Float, max : Float) : Type<Float> {
+    FloatType()
+  };
+
+  public func IntRange(min : Int, max : Int) : Type<Int> {
+    IntType()
+  };
+  public func NatRange(min : Nat, max : Nat) : Type<Nat> {
+    NatType()
+  };
 
 };
 
