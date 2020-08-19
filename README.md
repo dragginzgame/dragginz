@@ -12,13 +12,6 @@ The best explanation I can give for the project is an unholy cross between Minec
 
 ---
 
-# Notes
-
-Don't worry about code formatting right now, it may not be "idiomatic" because VSCode doesn't seem to have any nice
-auto-formatting tools for Motoko.
-
----
-
 # ~~ TODO ~~
 
 ## A class or module for ID?

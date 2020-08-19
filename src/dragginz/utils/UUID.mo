@@ -1,5 +1,3 @@
-
-
 module {
 
   public class UUID() {

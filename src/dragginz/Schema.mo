@@ -51,12 +51,17 @@ module {
   public func Description() : Type<Text> { TextType(200) };
   public func FlavourText() : Type<Text> { TextType(200) };
   public func Interval()    : Type<Nat>  { NatType() };
-  public func Name()        : Type<Text> { TextType(20) };
   public func SortOrder()   : Type<Nat>  { NatType() };
   public func Time()        : Type<Time> { TimeType() };
-  public func Username()    : Type<Text> { TextType(20) };
   public func UUID()        : Type<Text> { TextType(32) };
   public func Weighting()   : Type<Nat>  { NatType() };
+
+  // Names
+  public func Name()          : Type<Text> { TextType(20) };  // generic entity name
+  public func CharacterName() : Type<Text> { TextType(20) };
+  public func PetName()       : Type<Text> { TextType(20) };
+  public func Username()      : Type<Text> { TextType(20) };
+
 
   //
   // Game Design Concepts

@@ -133,6 +133,10 @@ module {
     // fields
     name:         Text;
     description:  Text;
+    // relations
+    icon:         IconID;
+    // structs
+    resource:     Resource;
   };
   public class AlignmentSchema(e : Alignment) = {
     var name        = Schema.Name();
@@ -155,6 +159,10 @@ module {
     icon:         IconID;
     concepts:     [ConceptID];
     tags:         [TagID];
+    // structs
+    contributors: [Contributor];
+    resource:     Resource;
+    status:       Status;
   };
   public class AmbienceTemplateSchema(e : AmbienceTemplate) = {
     var name        = Schema.Name();
@@ -352,10 +360,11 @@ module {
     pets:         [PetID];
     roles:        [RoleID];
     // structs
+    modelImp:     ModelImp;
     inventory:    Inventory;
   };
   public class CharacterSchema(e : Character) = {
-    var name = Schema.Name();
+    var name = Schema.CharacterName();
   };
 
   //
@@ -371,6 +380,7 @@ module {
     // relations
     icon:         IconID;
     concepts:     [ConceptID]; 
+    elements:     [ElementID];
     // structs
     resource:     Resource;
   };
@@ -454,21 +464,20 @@ module {
     lastModified: Types.Time;
     // fields
     isTrigger:     Bool;
-    meshScale:     ?Float;
-    // enums
-    axis:          Variant.Axis;
+    meshScale:     ?Types.Vector;
+    position:      ?Types.Vector;
+    rotation:      ?Types.Quaternion;
     // relations
     mesh:          MeshID;
     // structs
     params: {
       #capsule: {
+        axis:     Variant.Axis;
         length:   ?Types.Distance;
         radius:   ?Types.Distance; 
-        rotation: ?Types.Quaternion;
       };
       #box: {
         size:     Types.Vector;
-        rotation: ?Types.Quaternion;
       };
       #sphere: {
         radius:  ?Types.Distance;
@@ -488,12 +497,16 @@ module {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
+    name:         Text;
+    description:  Text;
     asset:        Types.TODO;
     // relations
     status:       Status;
     contributors: [Contributor];
   };
   public class ConceptSchema(e : Concept) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
   };
 
   //
@@ -564,6 +577,8 @@ module {
     sortOrder:    Types.SortOrder;
     // relations 
     icon:         IconID;
+    // structs
+    resource:     Resource;
   };
   public class ElementSchema(e : Element) = {
     var name        = Schema.Name();
@@ -598,7 +613,6 @@ module {
 
   //   
   // Gender
-  // An in-game gender, just Male or Female
   //
 
   public type GenderID = Types.ID;
@@ -701,6 +715,7 @@ module {
     // fields
     name:         Text;
     flavourText:  Text;
+    stack:        ?Nat;
     // relations
     icon:         IconID;
     quality:      QualityID;
@@ -723,6 +738,7 @@ module {
   public class ItemTemplateSchema(e : ItemTemplate) = {
     var name        = Schema.Name();
     var flavourText = Schema.FlavourText();
+    var stack       = Schema.NatRange(2, 200);
   };
 
   //
@@ -810,19 +826,24 @@ module {
     // fields
     name:         Text;
     description:  Text;
+    asset:        Types.TODO;
     lodLevels:    Nat;
+    series:       ?Types.Series;
     volume:       ?Types.Volume;
     // relations
+    rig:          RigID;
+    concepts:     [ConceptID];
     meshes:       [MeshID];
     // structs
-    contributor:  Contributor;
     resource:     Resource;
     status:       Status;
+    contributors: [Contributor];
   };
   public class ModelSchema(e : Model) = {
     var name        = Schema.Name();
     var description = Schema.Description();
     var lodLevels   = Schema.NatRange(1, 10);
+    var volume      = Schema.Volume();
   };
 
   //
@@ -835,14 +856,14 @@ module {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
-    name:         Types.TODO;   // pet names are subject to extreme validation
+    name:         Text; 
     // relations
     gender:       GenderID;
     owner:        CharacterID;
     species:      SpeciesID;
   };
   public class PetSchema(e : Pet) = {
-    var name = Schema.TODO();
+    var name = Schema.PetName();
   };
 
   //
@@ -921,8 +942,7 @@ module {
   
   //
   // Population
-  // A Zone can have many Populations, each one is a weighted list
-  // of species and optional gender
+  // A Zone can have many Populations, each one has many demographics
   //
 
   public type PopulationID = Types.ID;
@@ -937,11 +957,7 @@ module {
     tags:         [TagID];
     // structs
     resource:     Resource;
-    demographics: [{
-      weighting:    Types.Weighting;
-      species:      SpeciesID;
-      gender:       ?GenderID;
-    }];
+    demographics: [PopulationDemographic];
   };
   public class PopulationSchema(e : Population) = {
     var name        = Schema.Name();
@@ -1111,6 +1127,7 @@ module {
     description:    Text;
     baseLevel:      Nat;
     progressLevels: Nat;
+    rank:           Types.Rank;
     // relations
     characterClass: CharacterClassID;
     icon:           IconID;
@@ -1129,6 +1146,7 @@ module {
     var description    = Schema.Description();
     var baseLevel      = Schema.Level();
     var progressLevels = Schema.NatRange(1, 20);
+    var rank           = Schema.Rank();
   };
 
   //
@@ -1141,6 +1159,8 @@ module {
     created:      Types.Time;
     lastModified: Types.Time;
     // fields
+    name:         Text;
+    description:  Text;
     asset:        Types.TODO;
     series:       ?Types.Series;
     // structs
@@ -1148,6 +1168,8 @@ module {
     contributors: [Contributor];
   };
   public class ShaderSchema(e : Shader) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
   };
 
   //
@@ -1189,8 +1211,15 @@ module {
     name:         Text;
     description:  Text;
     asset:        Types.TODO;
+    // relations
+    icon:         IconID;
+    mesh:         MeshID;
+    concepts:     [ConceptID];
+    tags:         [TagID];
     // structs
+    resource:     Resource;
     status:       Status;
+    contributors: [Contributor];
   };
   public class SkyboxTemplateSchema(e : SkyboxTemplate) = {
     var name        = Schema.Name();
@@ -1246,16 +1275,17 @@ module {
     lastModified: Types.Time;
     // fields
     name:         Text;
+    asset:        Types.TODO;
     length:       Types.Interval;
     lufs:         Int;      
     sampleRate:   Int;               // readonly? @todo
-    asset:        Types.TODO;
-    // enums
-    channel:    Variant.SoundChannel;
+    // variants
+    channel:      Variant.SoundChannel;
   };
   public class SoundFileSchema(e : SoundFile) = {
-    var name = Schema.Name();
-    var lufs = Schema.IntRange(-99, 99);
+    var name   = Schema.Name();
+    var length = Schema.Interval();
+    var lufs   = Schema.IntRange(-99, 99);
   };
 
   //
@@ -1278,6 +1308,7 @@ module {
   };
   public class SoundLayerSchema(e : SoundLayer) = {
     var name        = Schema.Name();
+    var delay       = Schema.Interval();
     var level       = Schema.FloatRange(0, 1);
     var minDistance = Schema.NatRange(0, 10);
     var maxDistance = Schema.NatRange(0, 10);
@@ -1298,6 +1329,11 @@ module {
     reverse:       Bool;
   };
   public class SoundLoopSchema(e : SoundLoop) = {
+    var startPos      = Schema.Interval();
+    var endPos        = Schema.Interval();
+    var crossfadeTime = Schema.Interval();
+    var restartDelay  = Schema.Interval();
+    var repeatTime    = Schema.Interval();
   };
 
   //
@@ -1313,8 +1349,8 @@ module {
     playbackRate: Float;
     bypassReverb: Bool;
     // relations
+    file:         SoundFileID;
     soundLoop:    ?SoundLoopID;
-    file:         [SoundFileID];
   };
   public class SoundVariantSchema(e : SoundVariant) = {
     var name         = Schema.Name();
@@ -1333,6 +1369,9 @@ module {
     // fields
     name:         Text;
     description:  Text;
+    // relations
+    icon:         IconID;
+    concepts:     [ConceptID];
   };
   public class SpeciesSchema(e : Species) = {
     var name        = Schema.Name();
@@ -1356,6 +1395,9 @@ module {
     density:      Types.Density;
     hardness:     Types.Hardness;
     friction:     Types.Friction;
+    // relations
+    rawMaterial:  ItemTemplateID;
+    state:        SubstanceStateID;
     // structs
     resource:     Resource;
   };
@@ -1368,8 +1410,31 @@ module {
   };
 
   //
+  // SubstanceState
+  // gas, liquid, solid, and maybe extra magical ones
+  //
+
+  public type SubstanceStateID = SubstanceState;
+  public type SubstanceState = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    // relations
+    icon:         IconID;
+    // structs
+    resource:     Resource;
+  };
+  public class SubstanceStateSchema(e : SubstanceState) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
+  };
+
+  //
   // Tag
   // a list of generic string tags that are used to describe zones in different ways
+  // this could just be a list of tuples somewhere? @todo
   //
 
   public type TagID = Types.ID;
@@ -1445,9 +1510,12 @@ module {
     name:         Text;
     description:  Text;
     resonance:    Types.Resonance;
+    series:       ?Types.Series;
     // relations
     icon:         IconID;
-    material:     MaterialID;
+    concepts:     [ConceptID];
+    materials:    [MaterialID];
+    tags:         [TagID];
     // structs
     composition:  SubstanceComposition;
     resource:     Resource;
@@ -1470,7 +1538,7 @@ module {
     name:         Text;
     asset:        Types.TODO;
     series:       ?Types.Series;
-    // enums
+    // variants
     textureType:  Variant.TextureType;
     // relations
     material:     ?MaterialID;
@@ -1672,6 +1740,13 @@ module {
     model:        ModelID;
     // structs
     meshes:       Types.TODO;
+  };
+
+  // PopulationDemographic
+  public type PopulationDemographic = {
+    weighting: Types.Weighting;
+    species:   SpeciesID;
+    gender:    ?GenderID;
   };
 
   // Prop
