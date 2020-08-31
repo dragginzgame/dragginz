@@ -30,7 +30,9 @@ module {
     #CoverTemplate:       CoverTemplate;
     #Culture:             Culture;
     #Element:             Element;
+    #EnvironmentalFactor: EnvironmentalFactor;
     #Era:                 Era;
+    #FunctionGroup:       FunctionGroup;
     #Gender:              Gender;
     #Geology:             Geology;
     #HardnessCategory:    HardnessCategory;
@@ -43,6 +45,7 @@ module {
     #Pet:                 Pet;
     #PetStage:            PetStage;
     #PetTemplate:         PetTemplate;
+    #Phenomenon:          Phenomenon;
     #Player:              Player;
     #Population:          Population;
     #PropTemplate:        PropTemplate;
@@ -70,6 +73,8 @@ module {
     #Texture:             Texture;
     #TextureAtlas:        TextureAtlas;
     #Theme:               Theme;
+    #Waveform:            Waveform;
+    #WaveFunction:        WaveFunction;
     #Weather:             Weather;
     #Zone:                Zone;
   };
@@ -915,6 +920,119 @@ module {
     restrictions: [Restriction];
   };
   public class PetTemplateSchema(e : PetTemplate) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
+  };
+
+  //
+  // Phenomenon
+  // A series of entities which model changing game world environmental and magical conditions
+  // in an organic but deterministic way using a series of interacting cyclical functions
+  //
+
+  // Phenomenon is the top-level entity which encapsulates all structures and data for a single environmental factor (e.g. temperature)
+  public type PhenomenonID = Types.ID;
+  public type Phenomenon = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    nominal:      Float;  // The nominal value of the environmental factor (when all FunctionGroup output = 0).
+    scale:        Float;  // The scale factor (+/-) multiplier of this Phenomenon
+    floor:        Float;  // The absolute minimum value this phenomenon is permitted to reach (hard floor)
+    ceiling:      Float;  // The absolute maximum value this phenomenon is permitted to reach (hard ceiling)
+    // relations
+    icon:                 IconID;
+    series:               ?Types.Series;          // Can be part of a series
+    environmentalFactor:  EnvironmentalFactorID;  // Phenomenon relates to a single EnvironmentalFactor (e.g. temperature)
+    topGroup:             ?FunctionGroupID;       // Single top group. Nullable - if null, ouput value = Phenomenon.nominal
+  };
+  public class PhenomenonSchema(e : Phenomenon) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
+    var nominal     = Schema.FloatRange(-1e+6,1e+6);  // +/- 1,000,000 range for environmental factors
+    var scale       = Schema.FloatRange(-1e+6,1e+6);  //
+    var floor       = Schema.FloatRange(-1e+6,1e+6);  //
+    var ceiling     = Schema.FloatRange(-1e+6,1e+6);  //
+  };
+
+  // EnvironmentalFactor is the named environmental factor (e.g. temperature)
+  public type EnvironmentalFactorID = Types.ID;
+  public type EnvironmentalFactor = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    sortOrder:    Types.SortOrder;
+    // relations
+    icon:         IconID; // Icon enables visual representation of specific phenomena if required
+  };
+  public class EnvironmentalFactorSchema(e : EnvironmentalFactor) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
+    var sortOrder   = Schema.SortOrder();
+  };
+
+  // FunctionGroup groups a number of different aveforms together by either multiplying or summing their outputs
+  // FunctionGroups can nest indefinitely, and can contain FunctionGroup and/or WaveFunction
+  public type FunctionGroupID = Types.ID;
+  public type FunctionGroup = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    multiply:     Bool; // Group function selector: True to multiply the values of all functions in this group; False to sum the function values
+    // relations
+    groups:       ?[FunctionGroup];
+    functions:    ?[WaveFunction];
+  };
+  public class FunctionGroupSchema(e : FunctionGroup) = {
+    var name = Schema.Name();
+    var description = Schema.Description();
+  };
+
+  // WaveFunction takes a basic Waveform (wave shape) and applies scaling and modifier properties
+  public type WaveFunctionID = Types.ID;
+  public type WaveFunction = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    magnitude:    Float;            // Magnitude scale factor for the function. Range 0 to 1 (1 will give output +/- 1 for a bipolar function)
+    bipolar:      Bool;             // True for bipolar function (range -1 to +1), False for unipolar function (range 0 to 1)
+    period:       Types.Interval;   // Period of the function in seconds
+    duty:         Types.PercentNat; // Duty cycle of the function in percent (0% to 100%)
+    modifier:     Types.PercentNat; // Waveform-specific modifier (0% to 100%)
+    phase:        Float;            // Relative phase of the function in degrees (-180 to +180)
+    // relations
+    waveform:     Waveform;
+  };
+  public class WaveFunctionSchemea(e : WaveFunction) = {
+    var name        = Schema.Name();
+    var description = Schema.Description();
+    var magnitude   = Schema.FloatRange(0,1);
+    var period      = Schema.Interval();
+    var duty        = Schema.Percent();
+    var modifier    = Schema.Percent();
+    var phase       = Schema.FloatRange(-180,180);
+  };
+
+  // The basic waveform shape by name
+  public type WaveformID = Types.ID;
+  public type Waveform = {
+    created:      Types.Time;
+    lastModified: Types.Time;
+    // fields
+    name:         Text;
+    description:  Text;
+    // relations
+    icon:         IconID;   // Icon enables visual representation of basic waveform shape
+  };
+  public class WaveformSchema(e : Waveform) = {
     var name        = Schema.Name();
     var description = Schema.Description();
   };
