@@ -8,7 +8,7 @@ Our stack is currently Unity, SpatialOS/Improbable, and we're looking to replace
 Currently we are attempting to assemble a giant data model (500+ entities) with validation and filtering/sanitisation rules.  It's imperative that all the data that builds this world is carefully curated and error checked.  Previously we
 used CockroachDB as our storage layer.
 
-The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortressset in a very vertical, 3D Labyrinth/Dark Crystal type world.
+The best explanation I can give for the project is an unholy cross between Minecraft, Neopets, WoW and Dwarf Fortress set in a very vertical, 3D Labyrinth/Dark Crystal type world.
 
 ---
 
@@ -16,12 +16,11 @@ The best explanation I can give for the project is an unholy cross between Minec
 
 ## A class or module for ID?
 
-Just like in https://github.com/matthewhammer/motoko-crud/blob/master/src/Database.mo it should probably do a lot more, like actually hashing the ID.
+Should ID do more?  Like in https://github.com/matthewhammer/motoko-crud/blob/master/src/Database.mo
 
 ## Pseudorandom UUIDv4 generation
 
-Some entities require a UUID that the users have to respond with to "claim" the entity in the database.  This will eventually be
-encrypted somehow, but in the meantime how can I generate a random UUID?  Basically like uuid.NewV4() in Go.
+Some entities require a UUID that the users have to respond with to "claim" the entity in the database.  This will eventually be encrypted somehow, but in the meantime how can I generate a random UUID?  Basically like uuid.NewV4() in Go.
 
 ---
 

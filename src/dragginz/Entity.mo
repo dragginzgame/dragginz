@@ -98,7 +98,9 @@ module {
     icon:         IconID; 
   };
   public class AbilitySchema(e : Ability) = {
-    var name        = Schema.Name();
+ //   public func validate(e : Ability) : Bool {
+   //   e.name = Schema.Name(e.name);
+   // };
     var description = Schema.Description();
   }; 
 

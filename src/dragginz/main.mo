@@ -13,7 +13,7 @@ actor Database {
     // Eventually will be a BigMap
     var dataStore : TrieMap.TrieMap<ID, Entity.Entity> = TrieMap.TrieMap<ID, Entity.Entity>(
         func(x, y) { x == y },
-        func(id : ID) { id },    // don't think this actually hashes it
+        func(id : ID) { id },    
     );
     private stable var nextID : ID = 0;
 

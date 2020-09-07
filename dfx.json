@@ -3,19 +3,6 @@
     "dragginz": {
       "main": "src/dragginz/main.mo",
       "type": "motoko"
-    },
-    "dragginz_assets": {
-      "dependencies": [
-        "dragginz"
-      ],
-      "frontend": {
-        "entrypoint": "src/dragginz_assets/public/index.js"
-      },
-      "source": [
-        "src/dragginz_assets/assets",
-        "dist/dragginz_assets/"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {
@@ -23,7 +10,7 @@
       "packtool": ""
     }
   },
-  "dfx": "0.6.3",
+  "dfx": "0.6.6",
   "networks": {
     "local": {
       "bind": "127.0.0.1:8000",
